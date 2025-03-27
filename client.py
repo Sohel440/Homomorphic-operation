@@ -1,5 +1,4 @@
-#Subhankar Dawn
-#Sohel Mollick
+
 import tenseal as ts
 import pickle
 import socket
