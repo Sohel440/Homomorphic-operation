@@ -1,10 +1,10 @@
 # Homomorphic Encryption Client-Server 🔥
 
-## Overview
+## Overview ✨
 
 This project implements a **client-server application** using **homomorphic encryption** with the **TenSEAL** library. The client encrypts a numerical value using **CKKS encryption**, sends it to the server, and the server performs **homomorphic arithmetic operations** on the encrypted data without decryption. The result is then sent back to the client for decryption and display.
 
-## Features
+## Features 🛠️
 
 - **CKKS Homomorphic Encryption** for floating-point arithmetic.
 - **Secure Client-Server Communication** using sockets.
