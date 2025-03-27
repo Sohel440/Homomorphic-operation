@@ -1,4 +1,3 @@
-
 import socket
 import pickle
 import tenseal as ts
@@ -24,7 +23,7 @@ def handle_client(conn):
 
         print(f"\n[Server] Performing homomorphic {operation} operation...")
 
-        server_dataset = [10, 20, 30, 40, 50]
+        server_dataset = [5,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40] # 20 data set
         encrypted_server_dataset = [ts.ckks_vector(context, [value]) for value in server_dataset]
 
         results = []
