@@ -11,13 +11,13 @@ This project implements a **client-server application** using **homomorphic encr
 - **GUI-Based Client** built with Tkinter for user interaction.
 - **Supports Multiple Operations**: /*Addition*/, /*Subtraction*/, /*Multiplication*/, /*Division*/, /*Cube*/ , /*Squaring*/ , and /*Percentage*/ calculations.
 
-## Technologies Used
+## Technologies Used 🚀
 
 - **Python 3**
-- **TenSEAL** (Homomorphic Encryption Library)
-- **Socket Programming**
-- **Tkinter** (GUI for Client)
-- **Pickle** (Serialization)
+- **TenSEAL✅** (Homomorphic Encryption Library)
+- **Socket Programming✅**
+- **Tkinter✅** (GUI for Client)
+- **Pickle✅** (Serialization)
 
 ## Installation
 
