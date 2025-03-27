@@ -1,3 +1,4 @@
+#*************************Server side code*************************
 import socket
 import pickle
 import tenseal as ts
