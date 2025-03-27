@@ -65,8 +65,8 @@ python client.py
 
 - **Subhankar Dawn**
 - **Sohel Mollick**
-- Subhankar Halder
-- Madhusudan Das
+- **Subhankar Halder**
+- **Madhusudan Das**
 
 ##
 
