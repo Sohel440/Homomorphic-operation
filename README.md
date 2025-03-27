@@ -1,4 +1,4 @@
-# Homomorphic Encryption Client-Server
+# Homomorphic Encryption Client-Server 🔥
 
 ## Overview
 
@@ -62,11 +62,10 @@ python client.py
 ```
 
 ## Contributors
-
-- **Subhankar Dawn**
-- **Sohel Mollick**
-- **Subhankar Halder**
-- **Madhusudan Das**
+- **[Sohel Mollick](https://github.com/sohel440)**
+- **[Subhankar Dawn](https://github.com/Subhankar200)**
+- **[Subhankar Halder](https://github.com/subhankar-732121)**
+- **[Madhusudan Das](https://github.com/MADHUSUDAN-DAS)**
 
 ##
 
