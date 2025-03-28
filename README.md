@@ -1,4 +1,4 @@
-# Homomorphic Encryption Client-Server 🔥
+# Homomorphic Calculator in the client-server model #
 
 ## Overview ✨
 
