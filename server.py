@@ -1,4 +1,5 @@
-#*************************Server side code*************************#
+# *******************server side program*******************#
+# operation: 1. Addition 2. subtraction 3.Multiplication 4.divition 5.fraction 6.square 7.Cube 8.percentage
 import socket
 import pickle
 import tenseal as ts
@@ -24,7 +25,7 @@ def handle_client(conn):
 
         print(f"\n[Server] Performing homomorphic {operation} operation...")
 
-        server_dataset = [5,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40] # 20 data set
+        server_dataset = [5 ,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]
         encrypted_server_dataset = [ts.ckks_vector(context, [value]) for value in server_dataset]
 
         results = []
@@ -39,6 +40,10 @@ def handle_client(conn):
                 result = encrypted_server_value * encrypted_client_value  # Using multiplication
             elif operation == 'square':
                     result = encrypted_server_value * encrypted_server_value
+            elif operation == 'cube':
+                squared = encrypted_server_value * encrypted_server_value
+                #squared /= 2**15  # Reduce scale (less aggressively)
+                result = squared * encrypted_server_value
             elif operation == 'percentage':
                     result = encrypted_server_value * encrypted_client_value
             else:
