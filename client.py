@@ -1,4 +1,3 @@
-
 import tenseal as ts
 import pickle
 import socket
@@ -7,7 +6,7 @@ from tkinter import messagebox
 
 def setup_encryption():
     """Sets up the CKKS encryption context."""
-    context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[60, 40, 60])
+    context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[60, 40, 40,60])
     context.generate_galois_keys()
     context.global_scale = 2**40
     return context
@@ -74,8 +73,8 @@ class HomomorphicEncryptionGUI(tk.Tk):
         self.sqr_button = tk.Button(self, text="Encrypt and Square", command=lambda: self._encrypt_and_send('square'))
         self.sqr_button.pack()
 
-        # self.rem_button = tk.Button(self, text="Encrypt and Remainder", command=lambda: self._encrypt_and_send('remainder'))
-        # self.rem_button.pack()
+        self.rem_button = tk.Button(self, text="Encrypt and Cube", command=lambda: self._encrypt_and_send('cube'))
+        self.rem_button.pack()
 
         self.perc_button = tk.Button(self, text="Encrypt and Percentage", command=lambda: self._encrypt_and_send('percentage'))
         self.perc_button.pack()
@@ -123,6 +122,7 @@ class HomomorphicEncryptionGUI(tk.Tk):
                     results.append(decrypt_result(context, encrypted_result))
 
             results_text = f"Operation: {operation.capitalize()}\n"
+            results_text += f"Data set: [5 ,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\n"
             for i, result in enumerate(results):
                 results_text += f"Server value {i+1}: {result}\n"
 
