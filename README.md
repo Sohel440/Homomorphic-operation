@@ -9,7 +9,7 @@ This project implements a **client-server application** using **homomorphic encr
 - **CKKS Homomorphic Encryption** for floating-point arithmetic.
 - **Secure Client-Server Communication** using sockets.
 - **GUI-Based Client** built with Tkinter for user interaction.
-- **Supports Multiple Operations**: /*Addition*/, /*Subtraction*/, /*Multiplication*/, /*Division*/, /*Cube*/ , /*Squaring*/ , and /*Percentage*/ calculations.
+- **Supports Multiple Operations**: *Addition*, *Subtraction*, *Multiplication*, *Division*, *Cube* , *Squaring* , and *Percentage* calculations.
 
 ## Technologies Used 🚀
 
