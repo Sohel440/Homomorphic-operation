@@ -122,7 +122,6 @@ class HomomorphicEncryptionGUI(tk.Tk):
                     results.append(decrypt_result(context, encrypted_result))
 
             results_text = f"Operation: {operation.capitalize()}\n"
-            results_text += f"Data set: [5 ,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\n"
             for i, result in enumerate(results):
                 results_text += f"Server value {i+1}: {result}\n"
 
