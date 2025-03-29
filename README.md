@@ -1,4 +1,4 @@
-# Homomorphic Calculator in the client-server model #
+# Homomorphic Arithmatic Evaluation in the Client-Server Model #
 
 ## Overview ✨
 
