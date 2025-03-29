@@ -19,19 +19,21 @@ This project implements a **client-server application** using **homomorphic encr
 - **Tkinter✅** (GUI for Client)
 - **Pickle✅** (Serialization)
 
-## Installation
+************ **Installation ** ****************
 
-### Prerequisites
+#### Windows Environment ######
+
+1. Prerequisites
 
 Ensure you have Python 3 installed along with the required dependencies.
 
-### Install Dependencies
+2. Install Dependencies
 
 ```bash
 pip install tenseal
 ```
 
-## How to Run
+3. How to Run
 
 ### Start the Server
 
@@ -44,6 +46,9 @@ python server.py
 ```bash
 python client.py
 ```
+
+#### Linux Environment ######
+
 
 ## Usage
 
