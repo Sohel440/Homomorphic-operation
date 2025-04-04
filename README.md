@@ -1,4 +1,4 @@
-# Homomorphic Arithmatic Evaluation in the Client-Server Model #
+# A Secure Two-party Baisc Arithmatic Evaluation System using Homomorphic Encryption #
 
 ## Overview ✨
 
