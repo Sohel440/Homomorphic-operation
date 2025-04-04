@@ -2,7 +2,7 @@
 
 ## Overview ✨
 
-This project implements a **client-server application** using **Homomorphic Encryption** with the **TenSEAL** library. The client encrypts a numerical value using **BGV encryption**, **Paillier encryption**,  **CKKS encryption**, sends it to the server, and the server  **homomorphically evaluates the arithmatic operation** on the encrypted data without any decryption. The result is then sent back to the client where it can perform the decryption and get back the required result.
+This project implements a **secure two-party basic arithmatic evaluation system** using **Homomorphic Encryption** with the use of **TenSEAL** library. We develop a **graphical user interface (GUI)** where a client can choose which operation it wants to perform on the server side with its dataset of items in a  secure way. The client encrypts its own dataset of items using any of the following schemes, i.e., **BGV encryption**, **Paillier encryption**,  **CKKS encryption**, and sendsthe result to the server end, and finally, the server  **homomorphically evaluates the desired operation** on the encrypted data without performing any decryption. The result is then sent back to the client where it can decrypt  and get back the required result.
 
 ## Features 🛠️
 
