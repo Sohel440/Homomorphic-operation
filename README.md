@@ -1,4 +1,4 @@
-# A Secure Two-party Baisc Arithmatic Evaluation System using Homomorphic Encryption #
+# A Secure Two-party Basic Arithmatic Evaluation System using Homomorphic Encryption #
 
 ## Overview ✨
 
