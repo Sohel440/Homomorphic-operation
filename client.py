@@ -1,19 +1,35 @@
-import tenseal as ts
-import pickle
+#********************client side code ---------------------->:
+# here we use Both scheme , BFV for Integer and ckks for floatinng
 import socket
+import pickle
+import tenseal as ts
 import tkinter as tk
+from tkinter import ttk 
 from tkinter import messagebox
 
-def setup_encryption():
-    """Sets up the CKKS encryption context."""
-    context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[60, 40, 40,60])
+
+def setup_encryption(scheme):
+    """Sets up the encryption context based on the selected scheme."""
+    if scheme == 'bfv':
+        context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=8192, coeff_mod_bit_sizes=[60, 40, 40, 60], plain_modulus=65537)
+    elif scheme == 'ckks':
+        context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192, coeff_mod_bit_sizes=[60, 40, 40, 60])
+    else:
+        raise ValueError("Unsupported scheme type")
     context.generate_galois_keys()
     context.global_scale = 2**40
-    return context
+    return context, scheme
 
-def encrypt_value(context, value):
-    """Encrypts a single value using CKKS."""
-    return ts.ckks_vector(context, [value])
+def encrypt_value(context, scheme, value):
+    """Encrypts a single value using the specified encryption context."""
+    if scheme == 'bfv':
+        # BFV typically works with integers
+        return ts.bfv_vector(context, [int(value)])
+    elif scheme == 'ckks':
+        # CKKS typically works with floating point numbers
+        return ts.ckks_vector(context, [value])
+    else:
+        raise ValueError("Unsupported encryption scheme type")
 
 def send_data_to_server_and_receive(data):
     """Sends encrypted data to the server and receives the response."""
@@ -41,9 +57,14 @@ def send_data_to_server_and_receive(data):
 
     return response
 
-def decrypt_result(context, encrypted_result):
+def decrypt_result(context, scheme, encrypted_result):
     """Decrypts the received encrypted result."""
-    return ts.ckks_vector_from(context, encrypted_result).decrypt()
+    if scheme == 'bfv':
+        return ts.bfv_vector_from(context, encrypted_result).decrypt()
+    elif scheme == 'ckks':
+        return ts.ckks_vector_from(context, encrypted_result).decrypt()
+    else:
+        raise ValueError("Unsupported encryption scheme")
 
 class HomomorphicEncryptionGUI(tk.Tk):
     def __init__(self):
@@ -57,31 +78,21 @@ class HomomorphicEncryptionGUI(tk.Tk):
         tk.Label(self, text="Enter a number:").pack()
         self.entry_value = tk.Entry(self)
         self.entry_value.pack()
-        
-        self.add_button = tk.Button(self, text="Encrypt and Add", command=lambda: self._encrypt_and_send('add'))
-        self.add_button.pack()
-        
-        self.sub_button = tk.Button(self, text="Encrypt and Subtract", command=lambda: self._encrypt_and_send('subtract'))
-        self.sub_button.pack()
-        
-        self.mul_button = tk.Button(self, text="Encrypt and Multiply", command=lambda: self._encrypt_and_send('multiply'))
-        self.mul_button.pack()
-        
-        self.div_button = tk.Button(self, text="Encrypt and Divide", command=lambda: self._encrypt_and_send('divide'))
-        self.div_button.pack()
 
-        self.sqr_button = tk.Button(self, text="Encrypt and Square", command=lambda: self._encrypt_and_send('square'))
-        self.sqr_button.pack()
+        # Add dropdown for scheme selection
+        self.scheme_var = tk.StringVar(value="ckks")
+        self.scheme_dropdown = ttk.Combobox(self, textvariable=self.scheme_var, values=["bfv", "ckks"])
+        self.scheme_dropdown.pack()
 
-        self.rem_button = tk.Button(self, text="Encrypt and Cube", command=lambda: self._encrypt_and_send('cube'))
-        self.rem_button.pack()
-
-        self.perc_button = tk.Button(self, text="Encrypt and Percentage", command=lambda: self._encrypt_and_send('percentage'))
-        self.perc_button.pack()
+        # Add operation buttons with the correct command reference
+        operations = ["add", "subtract", "multiply", "divide", "square", "cube", "percentage"]
+        for op in operations:
+            btn = tk.Button(self, text=f"Encrypt and {op.capitalize()}", command=lambda op=op: self._encrypt_and_send(op))
+            btn.pack()
 
         self.result_text = tk.Text(self, width=80, height=15)
         self.result_text.pack()
-    
+
     def _encrypt_and_send(self, operation):
         """Handles user input, encrypts it, sends it to the server, and displays results."""
         try:
@@ -91,35 +102,39 @@ class HomomorphicEncryptionGUI(tk.Tk):
                     messagebox.showerror("Invalid Input", "Cannot divide by zero.")
                     return
                 value = 1 / value  # Send reciprocal instead of original value
-            # elif operation == "remainder":
-            #     if value == 0:
-            #         messagebox.showerror("Invalid Input", "Cannot compute remainder with zero divisor.")
-            #         return
-            #     value =1 / value
-                
             elif operation == "percentage":
                 value /= 100  # Convert to fraction (e.g., 50% -> 0.5)
         except ValueError:
             messagebox.showerror("Invalid Input", "Please enter a valid number.")
             return
 
-        context = setup_encryption()
-        encrypted_value = encrypt_value(context, value)
-        
+        # Get the selected scheme from the dropdown
+        scheme = self.scheme_var.get()
+
+        # Setup encryption context
+        context, scheme = setup_encryption(scheme)
+
+        # Encrypt the value
+        encrypted_value = encrypt_value(context, scheme, value)
+
         encrypted_data = {
             'context': context.serialize(),
             'encrypted_client_value': encrypted_value.serialize(),
-            'operation': operation
+            'operation': operation,
+            'scheme': scheme  # Pass the scheme explicitly
         }
 
         try:
             result_data = send_data_to_server_and_receive(encrypted_data)
             results = []
+            
             for encrypted_result in result_data['encrypted_results']:
                 if encrypted_result is None:
                     results.append("Error in computation")
                 else:
-                    results.append(decrypt_result(context, encrypted_result))
+                    dec_val = decrypt_result(context, scheme, encrypted_result)
+                    results.append(dec_val)
+                    print(dec_val)
 
             results_text = f"Operation: {operation.capitalize()}\n"
             for i, result in enumerate(results):
