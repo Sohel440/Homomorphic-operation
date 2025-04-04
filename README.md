@@ -2,13 +2,15 @@
 
 ## Overview ✨
 
-This project implements a **client-server application** using **homomorphic encryption** with the **TenSEAL** library. The client encrypts a numerical value using **CKKS encryption**, sends it to the server, and the server performs **homomorphic arithmetic operations** on the encrypted data without decryption. The result is then sent back to the client for decryption and display.
+This project implements a **client-server application** using **Homomorphic Encryption** with the **TenSEAL** library. The client encrypts a numerical value using **BGV encryption**, **Paillier encryption**,  **CKKS encryption**, sends it to the server, and the server  **homomorphically evaluates the arithmatic operation** on the encrypted data without any decryption. The result is then sent back to the client where it can perform the decryption and get back the required result.
 
 ## Features 🛠️
 
-- **CKKS Homomorphic Encryption** for floating-point arithmetic.
-- **Secure Client-Server Communication** using sockets.
-- **GUI-Based Client** built with Tkinter for user interaction.
+- **BGV Homomorphic Encryption** for integer arithmetic operation.
+- **Paillier Homomorphic Encryption** for only additive homomorphic arithmetic operation.
+- **CKKS Homomorphic Encryption** for floating-point arithmetic operation.
+- **Secure Client-Server Communication** using socket programming model.
+- **GUI-Based Client Appication** is built with Tkinter for the user interaction.
 - **Supports Multiple Operations**: *Addition*, *Subtraction*, *Multiplication*, *Division*, *Cube* , *Squaring* , and *Percentage* calculations.
 
 ## Technologies Used 🚀
