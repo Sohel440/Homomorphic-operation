@@ -2,11 +2,11 @@
 
 ## Overview ✨
 
-This project implements a **secure two-party basic arithmatic evaluation system** using **Homomorphic Encryption** with the use of **TenSEAL** library. We develop a **graphical user interface (GUI)** where a client can choose which operation it wants to perform on the server side with its dataset of items in a  secure way. The client encrypts its own dataset of items using any of the following schemes, i.e., **BGV encryption**, **Paillier encryption**,  **CKKS encryption**, and sendsthe result to the server end, and finally, the server  **homomorphically evaluates the desired operation** on the encrypted data without performing any decryption. The result is then sent back to the client where it can decrypt  and get back the required result.
+This project implements a **secure two-party basic arithmatic evaluation system** using **Homomorphic Encryption** with the use of **TenSEAL** library. We develop a **graphical user interface (GUI)** where a client can choose which operation it wants to perform on the server side with its dataset of items in a  secure way. The client encrypts its own dataset of items using any of the following schemes, i.e., **BFV encryption**, **Paillier encryption**,  **CKKS encryption**, and sendsthe result to the server end, and finally, the server  **homomorphically evaluates the desired operation** on the encrypted data without performing any decryption. The result is then sent back to the client where it can decrypt  and get back the required result.
 
 ## Features 🛠️
 
-- **BGV Homomorphic Encryption** for integer arithmetic operation.
+- **BFV Homomorphic Encryption** for integer arithmetic operation.
 - **Paillier Homomorphic Encryption** for only additive homomorphic arithmetic operation.
 - **CKKS Homomorphic Encryption** for floating-point arithmetic operation.
 - **Secure Client-Server Communication** using socket programming model.
