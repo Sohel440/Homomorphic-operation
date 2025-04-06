@@ -26,22 +26,20 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 ### Windows Environment ######
 
 1. Prerequisites
-  -  Ensure Python 3.13 is installed.
-
-  -  Install python -> https://www.python.org/downloads/
+   -  Install python 3.13 -> https://www.python.org/downloads/
 
 2. Install Dependencies
 
-- Install numpy
+   - Install numpy
   
- ```bash
-    pip install numpy
- ```
-- Install tenseal
+     ```bash
+        pip install numpy
+     ```
+  - Install tenseal
   
-  ```bash
-    pip install tenseal
-  ```
+    ```bash
+      pip install tenseal
+    ```
  ##### ℹ️ Note: socket, pickle, and tkinter are built-in with Python on Windows, so no need for separate installation.
 
 3. Run the Application
