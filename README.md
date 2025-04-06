@@ -32,12 +32,12 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 
 2. Install Dependencies
 
-- install numpy
+- Install numpy
   
  ```bash
     pip install numpy
  ```
-- install tenseal
+- Install tenseal
   
   ```bash
     pip install tenseal
