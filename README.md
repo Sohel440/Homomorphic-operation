@@ -78,10 +78,12 @@ python3 client.py
 ```bash
 pip3 install numpy
 pip3 install tenseal
+```
 
 3.Install Tkinter (if not pre-installed)
  ```bash
   sudo apt-get install python3-tk
+```
 
 4. How to Run
 
