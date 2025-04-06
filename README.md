@@ -76,12 +76,14 @@ python3 client.py
 
 2. Install Dependencies
   ```bash
+    sudo apt update
     pip3 install numpy
     pip3 install tenseal
   ```
 
 3. Install Tkinter (if not pre-installed)
   ```bash
+    sudo apt update
     sudo apt-get install python3-tk
   ```
 
