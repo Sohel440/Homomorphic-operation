@@ -62,36 +62,35 @@ python3 client.py
 
  - Install Python 3.13
   ```bash
-     sudo apt update
-     sudo apt install python3
-     ```
+    sudo apt update
+    sudo apt install python3
+  ```
    
  - Install Pip
-     ```bash
-    sudo apt update 
-    sudo apt install python3-pip
-    ```
+ ```bash
+   sudo apt update 
+   sudo apt install python3-pip
+ ```
     
    
 
 2. Install Dependencies
+  ```bash
+    pip3 install numpy
+    pip3 install tenseal
+  ```
 
-```bash
-pip3 install numpy
-pip3 install tenseal
-```
-
-3.Install Tkinter (if not pre-installed)
- ```bash
-  sudo apt-get install python3-tk
-```
+3. Install Tkinter (if not pre-installed)
+  ```bash
+    sudo apt-get install python3-tk
+  ```
 
 4. How to Run
 
 ### Start the Server
 
 ```bash
-python3 server.py
+ python3 server.py
 ```
 
 ### Start the Client
