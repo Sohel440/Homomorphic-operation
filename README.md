@@ -89,13 +89,13 @@ pip3 install tenseal
 
 ```bash
 python3 server.py
-```
+
 
 ### Start the Client
 
 ```bash
 python3 client.py
-```
+
 
 
 ## Usage
