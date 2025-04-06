@@ -30,7 +30,7 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 
 2. Install Dependencies
 
-   - Install numpy
+  - Install numpy
   
      ```bash
         pip install numpy
