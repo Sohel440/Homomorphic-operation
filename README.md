@@ -11,7 +11,7 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 - **CKKS Homomorphic Encryption** for floating-point arithmetic operation.
 - **Secure Client-Server Communication** using socket programming model.
 - **GUI-Based Client Application** is built with Tkinter for the user interaction.
-- Supports Multiple Operations: Addition, Subtraction, Multiplication, Division, Cube , Squaring , and Percentage calculations.
+- Supports Multiple Operations: **Addition**, **Subtraction**, **Multiplication**, **Division**, **Cube**, **Squaring**, and **Percentage Calculations**.
 
 ## Technologies Used 🚀
 
@@ -33,11 +33,11 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 2. Install Dependencies
 
 - install numpy
-```bash
+
 pip install numpy
-```
+
 - install tenseal
- ``` bash
+
   pip install tenseal
   ```
  ##### ℹ️ Note: socket, pickle, and tkinter are built-in with Python on Windows, so no need for separate installation.
@@ -64,24 +64,25 @@ python3 client.py
   ```bash
      sudo apt update
      sudo apt install python3
+
    
  - Install Pip
      ```bash
     sudo apt update 
     sudo apt install python3-pip
     
-    ```
+   
 
 2. Install Dependencies
 
 ```bash
 pip3 install numpy
 pip3 install tenseal
-```
+
 3.Install Tkinter (if not pre-installed)
  ```bash
   sudo apt-get install python3-tk
- ```
+
 4. How to Run
 
 ### Start the Server
