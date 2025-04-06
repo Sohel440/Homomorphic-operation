@@ -2,24 +2,24 @@
 
 ## Overview ✨
 
-This project implements a *secure two-party basic arithmatic evaluation system* using *Homomorphic Encryption* with the use of *TenSEAL* library. We develop a *graphical user interface (GUI)* where a client can choose which operation it wants to perform on the server side with its dataset of items in a  secure way. The client encrypts its own dataset of items using any of the following schemes, i.e., *BFV encryption, **Paillier encryption,  **CKKS encryption, and send the result to the server end, and finally, the server  **homomorphically evaluates the desired operation* on the encrypted data without performing any decryption. The result is then sent back to the client where it can decrypt  and get back the required result.
+This project implements a **secure two-party basic arithmatic evaluation system** using **Homomorphic Encryption** with the use of **TenSEAL** library. We develop a graphical user interface (GUI) where a client can choose which operation it wants to perform on the server side with its dataset of items in a  secure way. The client encrypts its own dataset of items using any of the following schemes, i.e., **BFV encryption**, **Paillier encryption**,  **CKKS encryption**, and send the result to the server end, and finally, the server  **homomorphically evaluates the desired operation** on the encrypted data without performing any decryption. The result is then sent back to the client where it can decrypt  and get back the required result.
 
 ## Features 🛠️
 
-- *BFV Homomorphic Encryption* for integer arithmetic operation.
-- *Paillier Homomorphic Encryption* for only additive homomorphic arithmetic operation.
-- *CKKS Homomorphic Encryption* for floating-point arithmetic operation.
-- *Secure Client-Server Communication* using socket programming model.
-- *GUI-Based Client Application* is built with Tkinter for the user interaction.
-- *Supports Multiple Operations: *Addition, Subtraction, Multiplication, Division, Cube , Squaring , and Percentage calculations.
+- **BFV Homomorphic Encryption** for integer arithmetic operation.
+- **Paillier Homomorphic Encryption** for only additive homomorphic arithmetic operation.
+- **CKKS Homomorphic Encryption** for floating-point arithmetic operation.
+- **Secure Client-Server Communication** using socket programming model.
+- **GUI-Based Client Application** is built with Tkinter for the user interaction.
+- Supports Multiple Operations: Addition, Subtraction, Multiplication, Division, Cube , Squaring , and Percentage calculations.
 
 ## Technologies Used 🚀
 
-- *Python 3*
-- *TenSEAL✅* (Homomorphic Encryption Library)
-- *Socket Programming✅*
-- *Tkinter✅* (GUI for Client)
-- *Pickle✅* (Serialization)
+- **Python 3**
+- **TenSEAL✅** (Homomorphic Encryption Library)
+- **Socket Programming✅**
+- **Tkinter✅** (GUI for Client)
+- **Pickle✅** (Serialization)
 
 ## 🔧 Installation
 
@@ -47,23 +47,29 @@ pip install numpy
 ### Start the Server
 
 ```bash
-python server.py
+python3 server.py
 ```
 
 ### Start the Client
 
 ```bash
-python client.py
+python3 client.py
 ```
 
 ### 🐧 Linux Environment
 
 1. Prerequisites
 
- - Ensure Python 3.13 is installed:
-   ```bash
-    sudo apt update
-    sudo apt install python3 python3-pip
+ - Install Python 3.13
+  ```bash
+     sudo apt update
+     sudo apt install python3
+   
+ - Install Pip
+     ```bash
+    sudo apt update 
+    sudo apt install python3-pip
+    
     ```
 
 2. Install Dependencies
@@ -81,13 +87,13 @@ pip3 install tenseal
 ### Start the Server
 
 ```bash
-python server.py
+python3 server.py
 ```
 
 ### Start the Client
 
 ```bash
-python client.py
+python3 client.py
 ```
 
 
