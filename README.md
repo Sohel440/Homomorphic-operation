@@ -64,12 +64,13 @@ python3 client.py
   ```bash
      sudo apt update
      sudo apt install python3
-
+     ```
    
  - Install Pip
      ```bash
     sudo apt update 
     sudo apt install python3-pip
+    ```
     
    
 
