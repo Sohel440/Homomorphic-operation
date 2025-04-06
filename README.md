@@ -23,7 +23,7 @@ This project implements a *secure two-party basic arithmatic evaluation system* 
 
 ## 🔧 Installation
 
-#### Windows Environment ######
+### Windows Environment ######
 
 1. Prerequisites
    - Ensure Python 3.13 is installed.
@@ -56,7 +56,7 @@ python server.py
 python client.py
 ```
 
-#### 🐧 Linux Environment
+### 🐧 Linux Environment
 
 1. Prerequisites
 
