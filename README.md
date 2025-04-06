@@ -102,9 +102,9 @@ python client.py
 ## File Structure
 
 
-│── client.py   # Client-side application with Tkinter GUI
-│── server.py   # Server handling encrypted computations
-│── README.md   # Documentation
+│──client.py   # Client-side application with Tkinter GUI
+│──server.py   # Server handling encrypted computations
+│──README.md   # Documentation
 
 
 ## Contributors
