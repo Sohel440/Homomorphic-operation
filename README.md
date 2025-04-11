@@ -106,7 +106,7 @@ python3 client.py
 
 1. Open the client application.
 2. Enter a numerical value in the input field.
-3. Select an operation (Addition, Subtraction, Multiplication, percentage , division , fraction , Square).
+3. Select an operation (Addition, Subtraction, Multiplication, Percentage , Division , Fraction , Square).
 4. The encrypted data is sent to the server, computed securely, and the encrypted result is returned.
 5. The client decrypts the result and displays it.
 
