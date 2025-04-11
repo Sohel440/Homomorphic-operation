@@ -25,7 +25,7 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 
 ### Windows Environment ######
 
-#### - Install pip Manually 
+####  Install pip Manually 
 - If pip is missing, do this:
 
 - Download get-pip.py from:
@@ -36,9 +36,13 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 - Open Command Prompt where the file is saved.
 
 Run this:
-```bash
+   ```bash
    python get-pip.py
-```
+   ```
+Upgrade pip:
+   ```bash
+   python -m pip install --upgrade pip
+   ```
 
 1. Prerequisites
    -  Install python latest version -> https://www.python.org/downloads/
