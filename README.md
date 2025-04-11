@@ -25,8 +25,23 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 
 ### Windows Environment ######
 
+#### - Install pip Manually 
+- If pip is missing, do this:
+
+- Download get-pip.py from:
+
+- https://bootstrap.pypa.io/get-pip.py
+- (Right-click → Save As)
+
+- Open Command Prompt where the file is saved.
+
+Run this:
+```bash
+   python get-pip.py
+```
+
 1. Prerequisites
-   -  Install python 3.13 -> https://www.python.org/downloads/
+   -  Install python latest version -> https://www.python.org/downloads/
 
 2. Install Dependencies
 
