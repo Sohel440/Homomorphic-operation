@@ -36,12 +36,7 @@ This project is powered by the **TenSEAL library** and includes a **Tkinter-base
       Tested on Windows and Linux environments.
 
 
-+ **BFV Homomorphic Encryption** for integer arithmetic operation.
-+ **Paillier Homomorphic Encryption** for only additive homomorphic arithmetic operation.
-+ **CKKS Homomorphic Encryption** for floating-point arithmetic operation.
-+ **Secure Client-Server Communication** using socket programming model.
-+ **GUI-Based Client Application** is built with Tkinter for the user interaction.
-+ Supports Multiple Operations: **Addition**, **Subtraction**, **Multiplication**, **Division**, **Cube**, **Squaring**, and **Percentage Calculations**.
+
 
 ## 🧪 Research Scope
 
