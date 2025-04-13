@@ -1,17 +1,62 @@
-# A Secure Two-party Basic Arithmatic Evaluation System using Homomorphic Encryption #
+# 🔐 A Secure Two-party Basic Arithmetic Evaluation System using Homomorphic Encryption #
 
-## Overview ✨
+## ✨ Overview 
 
-This project implements a **secure two-party basic arithmatic evaluation system** using **Homomorphic Encryption** with the use of **TenSEAL** library. We develop a graphical user interface (GUI) where a client can choose which operation it wants to perform on the server side with its dataset of items in a  secure way. The client encrypts its own dataset of items using any of the following schemes, i.e., **BFV encryption**, **Paillier encryption**,  **CKKS encryption**, and send the result to the server end, and finally, the server  **homomorphically evaluates the desired operation** on the encrypted data without performing any decryption. The result is then sent back to the client where it can decrypt  and get back the required result.
+This repository presents a secure two-party arithmetic evaluation system leveraging **Homomorphic Encryption (HE)** to enable computations on encrypted data without decryption. The system employs a **client-server model**, where a client encrypts input data and selects an arithmetic operation, which is then evaluated homomorphically on the server. The result is returned in encrypted form, preserving data privacy and confidentiality throughout the process.
 
-## Features 🛠️
+This project is powered by the **TenSEAL library** and includes a **Tkinter-based GUI** for user interaction. It supports multiple homomorphic schemes including **BFV, Paillier, and CKKS**, covering both integer and floating-point arithmetic.
 
-- **BFV Homomorphic Encryption** for integer arithmetic operation.
-- **Paillier Homomorphic Encryption** for only additive homomorphic arithmetic operation.
-- **CKKS Homomorphic Encryption** for floating-point arithmetic operation.
-- **Secure Client-Server Communication** using socket programming model.
-- **GUI-Based Client Application** is built with Tkinter for the user interaction.
-- Supports Multiple Operations: **Addition**, **Subtraction**, **Multiplication**, **Division**, **Cube**, **Squaring**, and **Percentage Calculations**.
+## 🎯 Key Features 
+
+
+- 🔢 Arithmetic Operation Support: Addition, Subtraction, Multiplication, Division, Squaring, Cubing, and Percentage calculation.
+
+- 🔐 Homomorphic Encryption Schemes:
+
+      BFV: Efficient integer arithmetic.
+
+      Paillier: Additive-only integer HE.
+
+      CKKS: Approximate real number (floating-point) computation.
+
+- 🖥️ Secure Two-Party Computation:
+
+      Encrypted data transmission via socket programming.
+
+      The server computes directly on ciphertexts.
+
+- 🎨 Graphical User Interface:
+
+      Intuitive Tkinter-based client interface.
+
+      Real-time encrypted result display.
+
+- ⚙️ Cross-platform Compatibility:
+
+      Tested on Windows and Linux environments.
+
+
++ **BFV Homomorphic Encryption** for integer arithmetic operation.
++ **Paillier Homomorphic Encryption** for only additive homomorphic arithmetic operation.
++ **CKKS Homomorphic Encryption** for floating-point arithmetic operation.
++ **Secure Client-Server Communication** using socket programming model.
++ **GUI-Based Client Application** is built with Tkinter for the user interaction.
++ Supports Multiple Operations: **Addition**, **Subtraction**, **Multiplication**, **Division**, **Cube**, **Squaring**, and **Percentage Calculations**.
+
+## 🧪 Research Scope
+
+This project is designed with a focus on academic and applied cryptography research. It demonstrates a foundational step toward privacy-preserving data computation systems in fields like secure cloud computing, privacy-preserving healthcare analytics, and confidential financial modelling.
+
+## 📁 File Structure
+
+📦 Homomorphic-Arithmetic-System
+├── client.py         # GUI-based client application
+├── server.py         # Server-side logic for HE computations
+├── README.md         # Project documentation
+├── requirements.txt  # Python dependencies
+
+
+  
 
 ## Technologies Used 🚀
 
@@ -21,9 +66,9 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 - **Tkinter✅** (GUI for Client)
 - **Pickle✅** (Serialization)
 
-## 🔧 Installation
+## ⚙️ Installation Guide
 
-### Windows Environment ######
+### 🪟 Windows Setup
 
 ####  Install pip Manually 
 - If pip is missing, do this:
@@ -33,7 +78,7 @@ This project implements a **secure two-party basic arithmatic evaluation system*
 - https://bootstrap.pypa.io/get-pip.py
 - (Right-click → Save As)
 
-- Open Command Prompt where the file is saved.
+- Open the Command Prompt where the file is saved.
 
 Run this:
    ```bash
