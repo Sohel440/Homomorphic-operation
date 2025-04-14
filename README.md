@@ -43,13 +43,12 @@ This project is powered by the **TenSEAL library** and includes a **Tkinter-base
 This project is designed with a focus on academic and applied cryptography research. It demonstrates a foundational step toward privacy-preserving data computation systems in fields like secure cloud computing, privacy-preserving healthcare analytics, and confidential financial modelling.
 
 ## 📁 File Structure
+``` 
+├─ client.py         # GUI-based client application
+├─ server.py         # Server-side logic for HE computations
+├─ README.md         # Project documentation
 
-
-├── client.py         # GUI-based client application
-├── server.py         # Server-side logic for HE computations
-├── README.md         # Project documentation
-
-
+```
   
 
 ## Technologies Used 🚀
@@ -102,13 +101,13 @@ Upgrade pip:
 
 3. Run the Application
 
-- Start the Server
+- First Start the Server
 
 ```bash
 python3 server.py
 ```
 
-- Start the Client
+- Then Start the Client
 
 ```bash
 python3 client.py
