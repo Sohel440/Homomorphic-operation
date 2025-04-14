@@ -80,6 +80,8 @@ class HomomorphicApp(tk.Tk):
         for op, btn in self.operations.items():
             if scheme == "paillier" and op not in ["add", "subtract"]:
                 btn.config(state="disabled")
+            elif scheme == 'bfv':
+                btn.config(state="normal" if op in ["add", "subtract","multiply","square","cube" ,"percentage"] else "disable")
             else:
                 btn.config(state="normal")
 
