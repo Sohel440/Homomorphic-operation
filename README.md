@@ -44,11 +44,10 @@ This project is designed with a focus on academic and applied cryptography resea
 
 ## 📁 File Structure
 
-📦 Homomorphic-Arithmetic-System
+
 ├── client.py         # GUI-based client application
 ├── server.py         # Server-side logic for HE computations
 ├── README.md         # Project documentation
-├── requirements.txt  # Python dependencies
 
 
   
@@ -103,13 +102,13 @@ Upgrade pip:
 
 3. Run the Application
 
-### Start the Server
+- Start the Server
 
 ```bash
 python3 server.py
 ```
 
-### Start the Client
+- Start the Client
 
 ```bash
 python3 client.py
@@ -148,13 +147,13 @@ python3 client.py
 
 4. How to Run
 
-### Start the Server
+- First Start the Server
 
 ```bash
  python3 server.py
 ```
 
-### Start the Client
+- Then Start the Client
 
 ```bash
 python3 client.py
@@ -169,12 +168,7 @@ python3 client.py
 4. The encrypted data is sent to the server, computed securely, and the encrypted result is returned.
 5. The client decrypts the result and displays it.
 
-## File Structure
 
-
-│── client.py   # Client-side application with Tkinter GUI               
-│── server.py   # Server handling encrypted computations      
-│── README.md   # Documentation
 
 
 ## Contributors
@@ -183,4 +177,4 @@ python3 client.py
 - **[Subhankar Halder](https://github.com/subhankar-732121)**
 - **[Madhusudan Das](https://github.com/MADHUSUDAN-DAS)**
 
-##
+
