@@ -11,7 +11,7 @@ def setup_encryption(scheme):
         context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=2**14,
                              coeff_mod_bit_sizes=[60, 40, 60], plain_modulus= 536903681)
     elif scheme == 'ckks':
-        context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192,
+        context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=2**13,
                              coeff_mod_bit_sizes=[60, 40, 40, 60])
         context.global_scale = 2**40
     else:
