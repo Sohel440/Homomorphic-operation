@@ -1,5 +1,4 @@
-#********************client side code ---------------------->:
-# here we use Both scheme , BFV for Integer and ckks for floatinng and paillier 
+#********************client side code with Paillier option in GUI ---------------------->:
 import socket
 import pickle
 import tenseal as ts
@@ -9,15 +8,15 @@ from tkinter import ttk, messagebox
 
 def setup_encryption(scheme):
     if scheme == 'bfv':
-        context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=8192,
-                             coeff_mod_bit_sizes=[60, 40, 60], plain_modulus= 1032193)
+        context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=2**14,
+                             coeff_mod_bit_sizes=[60, 40, 60], plain_modulus= 536903681)
     elif scheme == 'ckks':
         context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=8192,
                              coeff_mod_bit_sizes=[60, 40, 40, 60])
+        context.global_scale = 2**40
     else:
         raise ValueError("Invalid scheme")
     context.generate_galois_keys()
-    context.global_scale = 2**40
     return context
 
 def encrypt_value(context, scheme, value):
@@ -52,15 +51,37 @@ class HomomorphicApp(tk.Tk):
         self.entry = tk.Entry(self)
         self.entry.pack()
 
+        tk.Label(self, text="Select encryption scheme:").pack()
         self.scheme = tk.StringVar(value="ckks")
-        ttk.Combobox(self, textvariable=self.scheme, values=["bfv", "ckks"]).pack()
+        self.scheme_menu = ttk.Combobox(self, textvariable=self.scheme, values=["bfv", "ckks", "paillier"])
+        self.scheme_menu.pack()
+        self.scheme_menu.bind("<<ComboboxSelected>>", self.update_buttons_state)
 
-        operations = ["add", "subtract", "multiply", "divide", "square", "cube", "percentage"]
-        for op in operations:
-            tk.Button(self, text=f"{op.capitalize()}", command=lambda o=op: self.process(o)).pack()
+        self.operations = {
+            "add": tk.Button(self, text="Add", command=lambda: self.process("add")),
+            "subtract": tk.Button(self, text="Subtract", command=lambda: self.process("subtract")),
+            "multiply": tk.Button(self, text="Multiply", command=lambda: self.process("multiply")),
+            "divide": tk.Button(self, text="Divide", command=lambda: self.process("divide")),
+            "square": tk.Button(self, text="Square", command=lambda: self.process("square")),
+            "cube": tk.Button(self, text="Cube", command=lambda: self.process("cube")),
+            "percentage": tk.Button(self, text="Percentage", command=lambda: self.process("percentage"))
+        }
+
+        for btn in self.operations.values():
+            btn.pack()
 
         self.result_box = tk.Text(self, width=80, height=20)
         self.result_box.pack()
+
+        self.update_buttons_state()  # Initialize button states
+
+    def update_buttons_state(self, event=None):
+        scheme = self.scheme.get()
+        for op, btn in self.operations.items():
+            if scheme == "paillier" and op not in ["add", "subtract"]:
+                btn.config(state="disabled")
+            else:
+                btn.config(state="normal")
 
     def process(self, op):
         try:
@@ -79,7 +100,7 @@ class HomomorphicApp(tk.Tk):
         scheme = self.scheme.get()
 
         try:
-            if op in ['add', 'subtract']:
+            if scheme == "paillier":
                 pub_key, priv_key = paillier.generate_paillier_keypair()
                 enc_val = pub_key.encrypt(val)
                 data = {
