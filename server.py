@@ -54,7 +54,7 @@ def handle_client(conn):
             context = ts.context_from(encrypted_data['context'])
 
             if operation == "dot":
-                # Decrypt client tensor and do dot product
+               
                 enc_client_tensor = ts.ckks_tensor_from(context, encrypted_data['encrypted_tensor'])
                 server_tensor = ts.ckks_tensor(context, server_dataset)
 
