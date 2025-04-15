@@ -2,9 +2,9 @@
 
 ## ✨ Overview 
 
-This repository presents a secure two-party arithmetic evaluation system leveraging **Homomorphic Encryption (HE)** to enable computations on encrypted data without decryption. The system employs a **client-server model**, where a client encrypts input data and selects an arithmetic operation, which is then evaluated homomorphically on the server. The result is returned in encrypted form, preserving data privacy and confidentiality throughout the process.
+This work presents a secure two-party arithmetic evaluation system leveraging **Homomorphic Encryption (HE)** to enable computations on **encrypted data without decryption**. We are mainly considering a **client-server model**, where a client encrypts its input data and selects an arithmetic operation to be performed, which is then evaluated homomorphically on the server end. The final result is returned in encrypted form, preserving the data privacy and confidentiality throughout the process.
 
-This project is powered by the **TenSEAL library** and includes a **Tkinter-based GUI** for user interaction. It supports multiple homomorphic schemes including **BFV, Paillier, and CKKS**, covering both integer and floating-point arithmetic.
+This project is powered by the **TenSEAL library** and includes a **Tkinter-based GUI** for user interaction. It supports multiple homomorphic schemes including **BFV, Paillier, and CKKS**, covering both integer and floating-point numbers.
 
 ## 🎯 Key Features 
 
@@ -13,11 +13,11 @@ This project is powered by the **TenSEAL library** and includes a **Tkinter-base
 
 - 🔐 Homomorphic Encryption Schemes:
 
-      **BFV**: Efficient integer arithmetic.
+      BFV: Efficient integer arithmetic.
 
-      **Paillier**: Additive-only integer HE.
+      Paillier: Additive-only integer HE.
 
-      **CKKS**: Approximate real number (floating-point) computation.
+      CKKS: Approximate real number (floating-point) computation.
 
 - 🖥️ Secure Two-Party Computation:
 
