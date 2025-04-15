@@ -1,15 +1,16 @@
-#********************client side code with Paillier option in GUI ---------------------->:
+# ******************* Client Side with GUI ******************* #
 import socket
 import pickle
 import tenseal as ts
 from phe import paillier
 import tkinter as tk
 from tkinter import ttk, messagebox
+import numpy as np
 
 def setup_encryption(scheme):
     if scheme == 'bfv':
         context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=2**14,
-                             coeff_mod_bit_sizes=[60, 40, 60], plain_modulus= 536903681)
+                             coeff_mod_bit_sizes=[60, 40, 60], plain_modulus=536903681)
     elif scheme == 'ckks':
         context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=2**13,
                              coeff_mod_bit_sizes=[60, 40, 40, 60])
@@ -47,7 +48,7 @@ class HomomorphicApp(tk.Tk):
         self.create_widgets()
 
     def create_widgets(self):
-        tk.Label(self, text="Enter value:").pack()
+        tk.Label(self, text="Enter value (comma separated for dot):").pack()
         self.entry = tk.Entry(self)
         self.entry.pack()
 
@@ -64,7 +65,8 @@ class HomomorphicApp(tk.Tk):
             "divide": tk.Button(self, text="Divide", command=lambda: self.process("divide")),
             "square": tk.Button(self, text="Square", command=lambda: self.process("square")),
             "cube": tk.Button(self, text="Cube", command=lambda: self.process("cube")),
-            "percentage": tk.Button(self, text="Percentage", command=lambda: self.process("percentage"))
+            "percentage": tk.Button(self, text="Percentage", command=lambda: self.process("percentage")),
+            "dot": tk.Button(self, text="Dot Product", command=lambda: self.process("dot"))
         }
 
         for btn in self.operations.values():
@@ -73,36 +75,25 @@ class HomomorphicApp(tk.Tk):
         self.result_box = tk.Text(self, width=80, height=20)
         self.result_box.pack()
 
-        self.update_buttons_state()  # Initialize button states
+        self.update_buttons_state()
 
     def update_buttons_state(self, event=None):
         scheme = self.scheme.get()
         for op, btn in self.operations.items():
-            if scheme == "paillier" and op not in ["add", "subtract"]:
-                btn.config(state="disabled")
-            elif scheme == 'bfv':
-                btn.config(state="normal" if op in ["add", "subtract","multiply","square","cube" ,"percentage"] else "disable")
+            if scheme == "paillier":
+                btn.config(state="normal" if op in ["add", "subtract"] else "disabled")
+            elif scheme == "bfv":
+                btn.config(state="normal" if op in ["multiply", "square", "cube"] else "disabled")
             else:
-                btn.config(state="normal")
+                btn.config(state="normal" if op in ["multiply" ,"square" ,"divide" ,"cube", "percentage","dot" ] else "disabled" )
 
     def process(self, op):
         try:
-            val = float(self.entry.get())
-            if op == 'divide' and val == 0:
-                messagebox.showerror("Error", "Division by zero")
-                return
-            if op == 'divide':
-                val = 1 / val
-            elif op == 'percentage':
-                val /= 100
-        except:
-            messagebox.showerror("Invalid Input", "Enter a valid number")
-            return
+            input_text = self.entry.get()
+            scheme = self.scheme.get()
 
-        scheme = self.scheme.get()
-
-        try:
             if scheme == "paillier":
+                val = float(input_text)
                 pub_key, priv_key = paillier.generate_paillier_keypair()
                 enc_val = pub_key.encrypt(val)
                 data = {
@@ -122,22 +113,61 @@ class HomomorphicApp(tk.Tk):
 
             else:
                 context = setup_encryption(scheme)
-                enc_val = encrypt_value(context, scheme, val)
-                data = {
-                    'operation': op,
-                    'scheme': scheme,
-                    'context': context.serialize(),
-                    'encrypted_client_value': enc_val.serialize()
-                }
-                response = send_to_server(data)
-                decrypted = [ts.ckks_vector_from(context, r).decrypt()[0] if scheme == 'ckks'
-                             else ts.bfv_vector_from(context, r).decrypt()[0]
-                             for r in response['results']]
+
+                if op == 'dot':
+                    client_array = np.array([float(x.strip()) for x in input_text.split(',')])
+                    if client_array.size != 4:
+                        messagebox.showerror("Error", "For dot product, enter 4 values (e.g., 1,2,3,4) for 2x2 tensor.")
+                        return
+                    client_tensor = ts.ckks_tensor(context, client_array.reshape(2, 2))
+                    data = {
+                        'operation': op,
+                        'scheme': scheme,
+                        'context': context.serialize(),
+                        'encrypted_tensor': client_tensor.serialize()
+                    }
+                    response = send_to_server(data)
+                    result_tensor = ts.ckks_tensor_from(context, response['results'][0])
+                    decrypted = result_tensor.decrypt().tolist()
+
+                    # Display as matrix
+                    matrix = np.array(decrypted).reshape(2, 2)
+                    self.result_box.delete("1.0", tk.END)
+                    self.result_box.insert(tk.END, f"Operation: {op}\n")
+                    self.result_box.insert(tk.END, "Dot Product Result (2x2 matrix):\n")
+                    for row in matrix:
+                        self.result_box.insert(tk.END, f"{row}\n")
+                    return
+
+                else:
+                    val = float(input_text)
+                    if op == 'divide' and val == 0:
+                        messagebox.showerror("Error", "Division by zero")
+                        return
+                    if op == 'divide':
+                        val = 1 / val
+                    elif op == 'percentage':
+                        val /= 100
+
+                    enc_val = encrypt_value(context, scheme, val)
+                    data = {
+                        'operation': op,
+                        'scheme': scheme,
+                        'context': context.serialize(),
+                        'encrypted_client_value': enc_val.serialize()
+                    }
+                    response = send_to_server(data)
+                    decrypted = [
+                        ts.ckks_vector_from(context, r).decrypt()[0] if scheme == 'ckks'
+                        else ts.bfv_vector_from(context, r).decrypt()[0]
+                        for r in response['results']
+                    ]
 
             self.result_box.delete("1.0", tk.END)
             self.result_box.insert(tk.END, f"Operation: {op}\n")
             for i, v in enumerate(decrypted, 1):
                 self.result_box.insert(tk.END, f"Result {i}: {v}\n")
+
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
