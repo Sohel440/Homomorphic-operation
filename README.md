@@ -9,15 +9,15 @@ This project is powered by the **TenSEAL library** and includes a **Tkinter-base
 ## 🎯 Key Features 
 
 
-- 🔢 Arithmetic Operation Support: Addition, Subtraction, Multiplication, Division, Squaring, Cubing, and Percentage calculation.
+- 🔢 Arithmetic Operation Support: **Addition**, **Subtraction**, **Multiplication**, **Division**, **Square**, **Cube**, and **Percentage Calculation**.
 
 - 🔐 Homomorphic Encryption Schemes:
 
-      BFV: Efficient integer arithmetic.
+      **BFV**: Efficient integer arithmetic.
 
-      Paillier: Additive-only integer HE.
+      **Paillier**: Additive-only integer HE.
 
-      CKKS: Approximate real number (floating-point) computation.
+      **CKKS**: Approximate real number (floating-point) computation.
 
 - 🖥️ Secure Two-Party Computation:
 
