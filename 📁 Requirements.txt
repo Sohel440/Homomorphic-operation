@@ -4,10 +4,8 @@ tenseal>=0.3.0
 phe>=1.4.0
 
 # GUI Requirements
-tkinter>=8.6  # Usually comes with Python
-Pillow>=9.0.0  # For image handling (if used)
+Pillow>=9.0.0
 
-# Development/Testing
+# Development & Testing (optional, for dev environments)
 pytest>=7.0.0
 pytest-cov>=3.0.0
-
