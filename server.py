@@ -5,6 +5,7 @@ import pickle
 import tenseal as ts
 from phe import paillier
 import numpy as np
+import time 
 
 def receive_full_data(conn):
     buffer = b""
@@ -20,6 +21,7 @@ def receive_full_data(conn):
     return buffer
 
 def handle_client(conn):
+    start_time = time.time()
     try:
         print("Receiving data from client...")
         data = receive_full_data(conn)
@@ -87,6 +89,8 @@ def handle_client(conn):
     except Exception as e:
         print("Error:", e)
     finally:
+        execution_time = time.time() - start_time  # End timing
+        print(f"Execution time for operation '{operation}' using '{scheme}' scheme: {execution_time:.4f} seconds")
         conn.close()
 
 def main():
