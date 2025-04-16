@@ -29,29 +29,28 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
 - 🚀 Multi-scheme Support:
 
-```bash
-   BFV: Efficient integer arithmetic.
-```
 
-  Paillier: Additive-only integer HE.
+      BFV: Efficient integer arithmetic.
 
-  CKKS: Approximate real number (floating-point) computation.
+      Paillier: Additive-only integer HE.
+
+      CKKS: Approximate real number (floating-point) computation.
 
 - 🔒 Secure Socket Communication:
 
-   Encrypted data transmission via socket programming.
-
-   The server computes directly on ciphertexts.
+      Encrypted data transmission via socket programming.
+ 
+      The server computes directly on ciphertexts.
 
 - 🎨 Graphical User Interface:
 
-  Intuitive Tkinter-based client interface.
+      Intuitive Tkinter-based client interface.
 
-  Real-time encrypted result display.
+      Real-time encrypted result display.
 
 - ⚙️ Cross-platform Compatibility:
 
-  Tested on Windows and Linux environments.
+      Tested on Windows and Linux environments.
 
 ## ⚙️ Installation Guide
 
