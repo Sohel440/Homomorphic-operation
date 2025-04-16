@@ -183,11 +183,11 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
 ## 📁 File Structure
 
-homomorphic-calculator/
-├── client.py            # GUI client application
-├── server.py            # HE computation server
-├── README.md            # This documentation
-└── requirements.txt     # Dependencies
+    homomorphic-calculator/
+    ├── client.py            # GUI client application
+    ├── server.py            # HE computation server
+    ├── README.md            # This documentation
+    └── requirements.txt     # Dependencies
   
 ## 🛠️ Troubleshooting
 
