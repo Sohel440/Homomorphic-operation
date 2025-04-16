@@ -134,9 +134,17 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
     sudo apt-get install python3-tk
 
 
+## Technologies Used 🚀
+
+- **Python 3**
+- **TenSEAL✅** (Homomorphic Encryption Library)
+- **Socket Programming✅**
+- **Tkinter✅** (GUI for Client)
+- **Pickle✅** (Serialization)
 
 
-#### 🚀 Usage
+
+## 🚀 Usage
 
 - 1. Start the Server
 
@@ -159,52 +167,63 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
      - View decrypted results in the output box
            
-      
-## 🧪 Research Scope
+## 🧠 Supported Operations
 
-This project is designed with a focus on academic and applied cryptography research. It demonstrates a foundational step toward privacy-preserving data computation systems in fields like secure cloud computing, privacy-preserving healthcare analytics, and confidential financial modelling.
+| **Operation**     | **BFV** | **Paillier** | **CKKS** |
+|-------------------|:-------:|:------------:|:--------:|
+| Addition          | ❌      | ✅           | ✅       |
+| Subtraction       | ❌      | ✅           | ✅       |
+| Multiplication    | ✅      | ❌           | ✅       |
+| Division          | ❌      | ❌           | ✅       |
+| Square / Cube     | ✅      | ❌           | ✅       |
+| Percentage        | ❌      | ❌           | ✅       |
+| Dot Product       | ❌      | ❌           | ✅       |      
+
+
 
 ## 📁 File Structure
-``` 
-├─ client.py         # GUI-based client application
-├─ server.py         # Server-side logic for HE computations
-├─ README.md         # Project documentation
 
-```
+homomorphic-calculator/
+├── client.py            # GUI client application
+├── server.py            # HE computation server
+├── README.md            # This documentation
+└── requirements.txt     # Dependencies
   
+## 🛠️ Troubleshooting
 
-## Technologies Used 🚀
-
-- **Python 3**
-- **TenSEAL✅** (Homomorphic Encryption Library)
-- **Socket Programming✅**
-- **Tkinter✅** (GUI for Client)
-- **Pickle✅** (Serialization)
-
+| **Issue**                          | **Solution**                                      |
+|------------------------------------|---------------------------------------------------|
+| ImportError: No module named 'tenseal' | Run `pip install tenseal`                        |
+| Socket connection errors           | Verify the server is running before starting the client |
+| Paillier division attempts         | Use the CKKS scheme for division operations       |
 
 
 
-
-
-
-
-
-
-## Usage
-
-1. Open the client application.
-2. Enter a numerical value in the input field.
-3. Select an operation (Addition, Subtraction, Multiplication, Percentage , Division , Fraction , Square).
-4. The encrypted data is sent to the server, computed securely, and the encrypted result is returned.
-5. The client decrypts the result and displays it.
-
-
-
-
-## Contributors
+## 👥 Contributors
 - **[Sohel Mollick](https://github.com/sohel440)**
 - **[Subhankar Dawn](https://github.com/Subhankar200)**
 - **[Subhankar Halder](https://github.com/subhankar-732121)**
 - **[Madhusudan Das](https://github.com/MADHUSUDAN-DAS)**
+
+## 🧪 Research Applications
+
+Ideal for:
+
+ - Privacy-preserving cloud computations
+
+ - Secure medical data analysis
+
+ - Confidential financial modelling
+
+
+
+
+
+
+
+
+
+
+
 
 
