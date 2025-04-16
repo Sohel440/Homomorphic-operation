@@ -4,11 +4,11 @@
 
 This project implements a **secure two-party computation system** using **Homomorphic Encryption (HE)**, enabling privacy-preserving arithmetic operations on encrypted data. The system follows the client-server model where:
 
-- **Client** encrypts input data and selects operations.
+- **The Client** encrypts input data and selects operations.
 
-- **Server** performs computations without decrypting the data.
+- **The Server** performs computations without decrypting the data.
 
-- Results remain encrypted until returned to the client.
+- The encrypted result is sent  to the client.
 
 Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier, CKKS)** for **integer and floating-point** operations, featuring a user-friendly **Tkinter GUI**.
 
