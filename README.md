@@ -29,27 +29,29 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
 - 🚀 Multi-scheme Support:
 
-      BFV: Efficient integer arithmetic.
+```bash
+   BFV: Efficient integer arithmetic.
+```
 
-      Paillier: Additive-only integer HE.
+  Paillier: Additive-only integer HE.
 
-      CKKS: Approximate real number (floating-point) computation.
+  CKKS: Approximate real number (floating-point) computation.
 
 - 🔒 Secure Socket Communication:
 
-      Encrypted data transmission via socket programming.
+   Encrypted data transmission via socket programming.
 
-      The server computes directly on ciphertexts.
+   The server computes directly on ciphertexts.
 
 - 🎨 Graphical User Interface:
 
-      Intuitive Tkinter-based client interface.
+  Intuitive Tkinter-based client interface.
 
-      Real-time encrypted result display.
+  Real-time encrypted result display.
 
 - ⚙️ Cross-platform Compatibility:
 
-      Tested on Windows and Linux environments.
+  Tested on Windows and Linux environments.
 
 ## ⚙️ Installation Guide
 
@@ -74,13 +76,13 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 - Open the Command Prompt where the file is saved.
 
       Run this:
-      ```bash
+      
       python get-pip.py
-      ```
+      
       Upgrade pip:
-      ```bash
+      
       python -m pip install --upgrade pip
-       ```
+       
 
    
 
@@ -88,14 +90,14 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
   - Install numpy
   
-        ```bash
+        
         pip install numpy
-        ```
+     
   - Install TenSEAL
   
-        ```bash
+      
         pip install tenseal
-        ```
+        
     
  ##### ℹ️ Note: socket, pickle, and tkinter are built-in with Python on Windows, so no need for separate installation.
 
@@ -105,33 +107,33 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
  ##### Install Python latest version:
  
-    ```bash
+    
     sudo apt update
     sudo apt install python3
-    ```
+
    
 #####  Install pip  
 
-    ```bash
+   
      sudo apt update 
     sudo apt install python3-pip
-    ```
+
     
 #### Install Dependencies   
 
 ##### Install Numpy and TenSEAL
-    ```bash
+  
     sudo apt update
     pip3 install numpy
     pip3 install tenseal
-    ```
+    
 
 ##### Install Tkinter (if not pre-installed)
 
-    ```bash
+ 
     sudo apt update
     sudo apt-get install python3-tk
-    ```
+
 
 
 
@@ -139,16 +141,15 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
 - 1. Start the Server
 
-         ```bash
+     
          python3 server.py
-          ```
+        
     Server runs on 127.0.0.1:12345 by default
 
 - 2. Launch the Client GUI
 
-         ```bash
          python3 client.py
-         ```
+         
 - 3. Perform Operations:
 
      - Enter numeric values
