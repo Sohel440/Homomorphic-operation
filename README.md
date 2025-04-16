@@ -30,17 +30,17 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 - 🚀 Multi-scheme Support:
 
 
-      BFV: Efficient integer arithmetic.
+      BFV: Used only for integer arithmetic.
 
-      Paillier: Additive-only integer HE.
+      Paillier: Used for additive homomorphic encryption.
 
-      CKKS: Approximate real number (floating-point) computation.
+      CKKS: Used for  real or floating-point arithmetic.
 
 - 🔒 Secure Socket Communication:
 
       Encrypted data transmission via socket programming.
  
-      The server computes directly on ciphertexts.
+      The server performs the computation on the encrypted data.
 
 - 🎨 Graphical User Interface:
 
@@ -159,13 +159,13 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
          
 - 3. Perform Operations:
 
-     - Enter numeric values
+     - Enter the  numeric values
 
-     - Select encryption scheme
+     - Select the encryption scheme
 
-     - Choose operation (buttons auto-adjust based on scheme)
+     - Select the arithmatic operation (buttons auto-adjust based on scheme)
 
-     - View decrypted results in the output box
+     - The decrypted result is shown in the output box
            
 ## 🧠 Supported Operations
 
