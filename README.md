@@ -24,10 +24,10 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 | Data Privacy        | -                      | End-to-end encrypted computations        |
 
 
+## 🎯 Technical Highlights:
 
-- 🔢 Arithmetic Operation Support: **Addition**, **Subtraction**, **Multiplication**, **Division**, **Square**, **Cube**, and **Percentage Calculation**.
 
-- 🔐 Homomorphic Encryption Schemes:
+- 🚀 Multi-scheme Support:
 
       BFV: Efficient integer arithmetic.
 
@@ -35,7 +35,7 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
       CKKS: Approximate real number (floating-point) computation.
 
-- 🖥️ Secure Two-Party Computation:
+- 🔒 Secure Socket Communication:
 
       Encrypted data transmission via socket programming.
 
@@ -50,7 +50,6 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 - ⚙️ Cross-platform Compatibility:
 
       Tested on Windows and Linux environments.
-
 
 
 
