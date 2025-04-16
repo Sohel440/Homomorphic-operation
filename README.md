@@ -51,8 +51,115 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
       Tested on Windows and Linux environments.
 
+## ⚙️ Installation Guide
+
+### 🪟 Windows Setup
+
+#### Prerequisites
+
+##### Install Python latest version
+
+    -> https://www.python.org/downloads/
+
+#####  Install pip  
+
+- If pip is missing, do this:
+
+- Download get-pip.py from:
+
+      https://bootstrap.pypa.io/get-pip.py
+  
+      (Right-click → Save )
+
+- Open the Command Prompt where the file is saved.
+
+      Run this:
+      ```bash
+      python get-pip.py
+      ```
+      Upgrade pip:
+      ```bash
+      python -m pip install --upgrade pip
+       ```
+
+   
+
+#### Install Dependencies
+
+  - Install numpy
+  
+        ```bash
+        pip install numpy
+        ```
+  - Install TenSEAL
+  
+        ```bash
+        pip install tenseal
+        ```
+    
+ ##### ℹ️ Note: socket, pickle, and tkinter are built-in with Python on Windows, so no need for separate installation.
+
+ ### 🐧 Linux Environment
+
+#### Prerequisites
+
+ ##### Install Python latest version:
+ 
+    ```bash
+    sudo apt update
+    sudo apt install python3
+    ```
+   
+#####  Install pip  
+
+    ```bash
+     sudo apt update 
+    sudo apt install python3-pip
+    ```
+    
+#### Install Dependencies   
+
+##### Install Numpy and TenSEAL
+    ```bash
+    sudo apt update
+    pip3 install numpy
+    pip3 install tenseal
+    ```
+
+##### Install Tkinter (if not pre-installed)
+
+    ```bash
+    sudo apt update
+    sudo apt-get install python3-tk
+    ```
 
 
+
+#### 🚀 Usage
+
+- 1. Start the Server
+
+         ```bash
+         python3 server.py
+          ```
+    Server runs on 127.0.0.1:12345 by default
+
+- 2. Launch the Client GUI
+
+         ```bash
+         python3 client.py
+         ```
+- 3. Perform Operations:
+
+     - Enter numeric values
+
+     - Select encryption scheme
+
+     - Choose operation (buttons auto-adjust based on scheme)
+
+     - View decrypted results in the output box
+           
+      
 ## 🧪 Research Scope
 
 This project is designed with a focus on academic and applied cryptography research. It demonstrates a foundational step toward privacy-preserving data computation systems in fields like secure cloud computing, privacy-preserving healthcare analytics, and confidential financial modelling.
@@ -74,104 +181,13 @@ This project is designed with a focus on academic and applied cryptography resea
 - **Tkinter✅** (GUI for Client)
 - **Pickle✅** (Serialization)
 
-## ⚙️ Installation Guide
 
-### 🪟 Windows Setup
 
-####  Install pip Manually 
-- If pip is missing, do this:
 
-- Download get-pip.py from:
 
-- https://bootstrap.pypa.io/get-pip.py
-- (Right-click → Save As)
 
-- Open the Command Prompt where the file is saved.
 
-Run this:
-   ```bash
-   python get-pip.py
-   ```
-Upgrade pip:
-   ```bash
-   python -m pip install --upgrade pip
-   ```
 
-1. Prerequisites
-   -  Install python latest version -> https://www.python.org/downloads/
-
-2. Install Dependencies
-
-  - Install numpy
-  
-     ```bash
-        pip install numpy
-     ```
-  - Install tenseal
-  
-    ```bash
-      pip install tenseal
-    ```
- ##### ℹ️ Note: socket, pickle, and tkinter are built-in with Python on Windows, so no need for separate installation.
-
-3. Run the Application
-
-- First Start the Server
-
-```bash
-python3 server.py
-```
-
-- Then Start the Client
-
-```bash
-python3 client.py
-```
-
-### 🐧 Linux Environment
-
-1. Prerequisites
-
- - Install Python 3.13
-  ```bash
-    sudo apt update
-    sudo apt install python3
-  ```
-   
- - Install Pip
- ```bash
-   sudo apt update 
-   sudo apt install python3-pip
- ```
-    
-   
-
-2. Install Dependencies
-  ```bash
-    sudo apt update
-    pip3 install numpy
-    pip3 install tenseal
-  ```
-
-3. Install Tkinter (if not pre-installed)
-  ```bash
-    sudo apt update
-    sudo apt-get install python3-tk
-  ```
-
-4. How to Run
-
-- First Start the Server
-
-```bash
- python3 server.py
-```
-
-- Then Start the Client
-
-```bash
-python3 client.py
-```
 
 
 ## Usage
