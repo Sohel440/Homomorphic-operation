@@ -4,8 +4,6 @@ tenseal>=0.3.0
 phe>=1.4.0
 
 # GUI Requirements
-Pillow>=9.0.0
+Tkinter
 
-# Development & Testing (optional, for dev environments)
-pytest>=7.0.0
-pytest-cov>=3.0.0
+
