@@ -7,6 +7,8 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import numpy as np
 
+#The plain_modulus is chosen so that it is a prime congruent with 1 modulo 2. poly_modulus_degree. We choose 29-bit prime,  536903681 
+
 def setup_encryption(scheme):
     if scheme == 'bfv':
         context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=2**14,
