@@ -1,4 +1,8 @@
-# ******************* Client Side with GUI ******************* #
+# client.py
+# ******************* client Side ******************* #
+# operation: 1. Addition 2. subtraction 3.Multiplication 4.divition 5.fraction 6.square 7.Cube 8.percentage 9. dot product 10. membership check
+
+# ---------------------------------------------------------------------------------------------------------------------------
 import socket
 import pickle
 import tenseal as ts
@@ -7,15 +11,11 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import numpy as np
 
-#The plain_modulus is chosen so that it is a prime congruent with 1 modulo 2. poly_modulus_degree. We choose 29-bit prime,  536903681 
-
 def setup_encryption(scheme):
     if scheme == 'bfv':
-        context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=2**14,
-                             coeff_mod_bit_sizes=[60, 40, 60], plain_modulus=536903681)
+        context = ts.context(ts.SCHEME_TYPE.BFV, poly_modulus_degree=2**14, coeff_mod_bit_sizes=[60, 40, 60], plain_modulus=536903681)
     elif scheme == 'ckks':
-        context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=2**13,
-                             coeff_mod_bit_sizes=[60, 40, 40, 60])
+        context = ts.context(ts.SCHEME_TYPE.CKKS, poly_modulus_degree=2**14, coeff_mod_bit_sizes=[60, 40, 40, 60])
         context.global_scale = 2**40
     else:
         raise ValueError("Invalid scheme")
@@ -46,13 +46,22 @@ class HomomorphicApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Homomorphic Encryption Client")
-        self.geometry("800x600")
+        self.geometry("850x700")
         self.create_widgets()
 
     def create_widgets(self):
-        tk.Label(self, text="Enter value (comma separated for dot):").pack()
+        tk.Label(self, text="Enter scalar value:").pack()
         self.entry = tk.Entry(self)
         self.entry.pack()
+
+        tk.Label(self, text="Enter matrix dimensions (m x n):").pack()
+        self.size_entry = tk.Entry(self)
+        self.size_entry.pack()
+
+        self.matrix_entry_label = tk.Label(self, text="Enter matrix values (comma-separated):")
+        self.matrix_entry_label.pack()
+        self.matrix_entry = tk.Entry(self)
+        self.matrix_entry.pack()
 
         tk.Label(self, text="Select encryption scheme:").pack()
         self.scheme = tk.StringVar(value="ckks")
@@ -68,13 +77,14 @@ class HomomorphicApp(tk.Tk):
             "square": tk.Button(self, text="Square", command=lambda: self.process("square")),
             "cube": tk.Button(self, text="Cube", command=lambda: self.process("cube")),
             "percentage": tk.Button(self, text="Percentage", command=lambda: self.process("percentage")),
-            "dot": tk.Button(self, text="Dot Product", command=lambda: self.process("dot"))
+            "dot": tk.Button(self, text="Dot Product", command=lambda: self.process("dot")),
+            "membership": tk.Button(self, text="Membership Check", command=lambda: self.process("membership")),
         }
 
         for btn in self.operations.values():
             btn.pack()
 
-        self.result_box = tk.Text(self, width=80, height=20)
+        self.result_box = tk.Text(self, width=90, height=20)
         self.result_box.pack()
 
         self.update_buttons_state()
@@ -83,87 +93,113 @@ class HomomorphicApp(tk.Tk):
         scheme = self.scheme.get()
         for op, btn in self.operations.items():
             if scheme == "paillier":
-                btn.config(state="normal" if op in ["add", "subtract"] else "disabled")
+                btn.config(state="normal" if op in ["add", "subtract", "membership"] else "disabled")
             elif scheme == "bfv":
-                btn.config(state="normal" if op in ["multiply", "square", "cube"] else "disabled")
+                btn.config(state="normal" if op in ["multiply", "square", "cube", "dot"] else "disabled")
             else:
-                btn.config(state="normal" if op in ["multiply" ,"square" ,"divide" ,"cube", "percentage","dot" ] else "disabled" )
+                btn.config(state="normal" if op in ["multiply", "square", "divide", "cube", "percentage", "dot"] else "disabled")
 
     def process(self, op):
         try:
-            input_text = self.entry.get()
             scheme = self.scheme.get()
 
-            if scheme == "paillier":
-                val = float(input_text)
+            if scheme == 'paillier':
                 pub_key, priv_key = paillier.generate_paillier_keypair()
+                val = float(self.entry.get())
                 enc_val = pub_key.encrypt(val)
+
                 data = {
                     'operation': op,
-                    'scheme': 'paillier',
+                    'scheme': scheme,
                     'public_key': {'n': pub_key.n},
                     'encrypted_client_value': {
                         'ciphertext': enc_val.ciphertext(),
                         'exponent': enc_val.exponent
                     }
                 }
+
                 response = send_to_server(data)
-                decrypted = []
-                for res in response['results']:
-                    enc_res = paillier.EncryptedNumber(pub_key, res['ciphertext'], res['exponent'])
-                    decrypted.append(priv_key.decrypt(enc_res))
 
-            else:
-                context = setup_encryption(scheme)
-
-                if op == 'dot':
-                    client_array = np.array([float(x.strip()) for x in input_text.split(',')])
-                    if client_array.size != 4:
-                        messagebox.showerror("Error", "For dot product, enter 4 values (e.g., 1,2,3,4) for 2x2 tensor.")
-                        return
-                    client_tensor = ts.ckks_tensor(context, client_array.reshape(2, 2))
-                    data = {
-                        'operation': op,
-                        'scheme': scheme,
-                        'context': context.serialize(),
-                        'encrypted_tensor': client_tensor.serialize()
-                    }
-                    response = send_to_server(data)
-                    result_tensor = ts.ckks_tensor_from(context, response['results'][0])
-                    decrypted = result_tensor.decrypt().tolist()
-
-                    # Display as matrix
-                    matrix = np.array(decrypted).reshape(2, 2)
-                    self.result_box.delete("1.0", tk.END)
-                    self.result_box.insert(tk.END, f"Operation: {op}\n")
-                    self.result_box.insert(tk.END, "Dot Product Result (2x2 matrix):\n")
-                    for row in matrix:
-                        self.result_box.insert(tk.END, f"{row}\n")
-                    return
-
-                else:
-                    val = float(input_text)
-                    if op == 'divide' and val == 0:
-                        messagebox.showerror("Error", "Division by zero")
-                        return
-                    if op == 'divide':
-                        val = 1 / val
-                    elif op == 'percentage':
-                        val /= 100
-
-                    enc_val = encrypt_value(context, scheme, val)
-                    data = {
-                        'operation': op,
-                        'scheme': scheme,
-                        'context': context.serialize(),
-                        'encrypted_client_value': enc_val.serialize()
-                    }
-                    response = send_to_server(data)
-                    decrypted = [
-                        ts.ckks_vector_from(context, r).decrypt()[0] if scheme == 'ckks'
-                        else ts.bfv_vector_from(context, r).decrypt()[0]
+                if op == "membership":
+                    decrypted_differences = [
+                        priv_key.decrypt(paillier.EncryptedNumber(pub_key, r['ciphertext'], r['exponent']))
                         for r in response['results']
                     ]
+                    membership_found = any(diff == 0 for diff in decrypted_differences)
+
+                    self.result_box.delete("1.0", tk.END)
+                    self.result_box.insert(tk.END, f"Membership Found: {membership_found}\n")
+                    return
+
+                decrypted = [
+                    priv_key.decrypt(paillier.EncryptedNumber(pub_key, r['ciphertext'], r['exponent']))
+                    for r in response['results']
+                ]
+
+                self.result_box.delete("1.0", tk.END)
+                self.result_box.insert(tk.END, f"Operation: {op}\n")
+                for i, v in enumerate(decrypted, 1):
+                    self.result_box.insert(tk.END, f"Result {i}: {v}\n")
+                return
+
+            context = setup_encryption(scheme)
+
+            if op == 'dot':
+                size_input = self.size_entry.get().strip()
+                if "x" not in size_input:
+                    messagebox.showerror("Error", "Invalid matrix size. Please enter in m x n format.")
+                    return
+                m, n = map(int, size_input.split("x"))
+                matrix_input = self.matrix_entry.get().strip()
+                matrix_values = [float(x.strip()) for x in matrix_input.split(",")]
+                if len(matrix_values) != m * n:
+                    messagebox.showerror("Error", f"Please enter {m * n} values for the matrix.")
+                    return
+                matrix = np.array(matrix_values).reshape(m, n)
+                tensor = ts.ckks_tensor(context, matrix) if scheme == 'ckks' else ts.bfv_tensor(context, matrix)
+
+                data = {
+                    'operation': op,
+                    'scheme': scheme,
+                    'context': context.serialize(),
+                    'encrypted_tensor': tensor.serialize()
+                }
+                response = send_to_server(data)
+                decrypted_tensor = ts.ckks_tensor_from(context, response['results'][0]) if scheme == 'ckks' \
+                    else ts.bfv_tensor_from(context, response['results'][0])
+
+                result = decrypted_tensor.decrypt().tolist()
+
+                self.result_box.delete("1.0", tk.END)
+                self.result_box.insert(tk.END, f"Operation: {op}\n")
+                self.result_box.insert(tk.END, f"Dot Product Result (matrix):\n")
+                for row in result:
+                    self.result_box.insert(tk.END, f"{row}\n")
+                return
+
+            val = float(self.entry.get())
+            if op == 'divide' and val == 0:
+                messagebox.showerror("Error", "Division by zero")
+                return
+            if op == 'divide':
+                val = 1 / val
+            elif op == 'percentage':
+                val /= 100
+
+            enc_val = encrypt_value(context, scheme, val)
+            data = {
+                'operation': op,
+                'scheme': scheme,
+                'context': context.serialize(),
+                'encrypted_client_value': enc_val.serialize()
+            }
+            response = send_to_server(data)
+
+            decrypted = [
+                ts.ckks_vector_from(context, r).decrypt()[0] if scheme == 'ckks'
+                else ts.bfv_vector_from(context, r).decrypt()[0]
+                for r in response['results']
+            ]
 
             self.result_box.delete("1.0", tk.END)
             self.result_box.insert(tk.END, f"Operation: {op}\n")
