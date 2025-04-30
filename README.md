@@ -170,13 +170,13 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
 | **Operation**     | **BFV** | **Paillier** | **CKKS** |
 |-------------------|:-------:|:------------:|:--------:|
-| Addition          | ❌      | ✅           | ✅       |
-| Subtraction       | ❌      | ✅           | ✅       |
+| Addition          | ✅      | ✅           | ✅       |
+| Subtraction       | ✅      | ✅           | ✅       |
 | Multiplication    | ✅      | ❌           | ✅       |
-| Division          | ❌      | ❌           | ✅       |
+| Division          | ✅      | ❌           | ✅       |
 | Square / Cube     | ✅      | ❌           | ✅       |
 | Percentage        | ❌      | ❌           | ✅       |
-| Dot Product       | ❌      | ❌           | ✅       |      
+| Dot Product       | ✅      | ❌           | ✅       |      
 
 
 
