@@ -15,13 +15,12 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
 ## 🎯 Key Features
 
-| **Feature**         | **Supported Schemes** | **Description**                          |
-|---------------------|------------------------|------------------------------------------|
-| Basic Arithmetic    | All                    | Add, Subtract, Multiply                  |
-| Advanced Math       | CKKS / BFV             | Division, Square, Cube                   |
-| Percentage          | CKKS                   | Secure percentage calculations           |
-| Matrix Operations   | CKKS                   | Dot product for 2x2 tensors              |
-| Data Privacy        | -                      | End-to-end encrypted computations        |
+| **Schemes**         | **Supported Operation**                                                  |                          
+|---------------------|--------------------------------------------------------------------------|
+| CKKS                | Add, Subtract, Multiply, Division, Square, Cube, percentage, Dot product |                   
+| BFV                 | Add, Subtract, Multiply, Division, Square, Cube, Dot product             |
+| Paillier            | Add, Subtract, Membership Check                                          | 
+
 
 
 ## 🎯 Technical Highlights:
