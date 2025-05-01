@@ -4,9 +4,9 @@
 
 This project implements a **secure two-party computation system** using **Homomorphic Encryption (HE)**, enabling privacy-preserving arithmetic operations on encrypted data. The system follows the client-server model where:
 
-- **The Client** encrypts input data and selects operations.
+- **The Client** encrypts input data and selects an operation.
 
-- **The Server** performs computations without decrypting the data.
+- **The Server** performs the desired operation  without decrypting the data.
 
 - The encrypted result is sent  to the client.
 
@@ -164,20 +164,20 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
      - Select the arithmatic operation (buttons auto-adjust based on scheme)
 
-     - The decrypted result is shown in the output box
+     - The final result is decrypted and it is shown in the output box of the GUI
            
 ## 🧠 Supported Operations
 
-| **Operation**     | **BFV** | **Paillier** | **CKKS** |
-|-------------------|:-------:|:------------:|:--------:|
-| Addition          | ✅      | ✅           | ✅       |
-| Subtraction       | ✅      | ✅           | ✅       |
-| Multiplication    | ✅      | ❌           | ✅       |
-| Division          | ✅      | ❌           | ✅       |
-| Square / Cube     | ✅      | ❌           | ✅       |
-| Percentage        | ❌      | ❌           | ✅       |
-| Dot Product       | ✅      | ❌           | ✅       |      
-
+| **Operation**          |   **BFV** | **Paillier** | **CKKS** |
+|------------------------|:---------:|:------------:|:--------:|
+| Addition               | ✅       | ✅           | ✅       |
+| Subtraction            | ✅       | ✅           | ✅       |
+| Multiplication         | ✅       | ❌           | ✅       |
+| Division               | ✅       | ❌           | ✅       |
+| Square / Cube          | ✅       | ❌           | ✅       |
+| Percentage             | ❌       | ❌           | ✅       |
+| Dot Product            | ✅       | ❌           | ✅       |      
+| Private Set Membership | ❌       | ✅           | ❌       |     
 
 
 ## 📁 File Structure
