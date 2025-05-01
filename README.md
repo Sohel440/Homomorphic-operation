@@ -15,11 +15,11 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 
 ## 🎯 Key Features
 
-| **Schemes**         | **Supported Operation**                                                  |                          
-|---------------------|--------------------------------------------------------------------------|
-| CKKS                | Add, Subtract, Multiply, Division, Square, Cube, percentage, Dot product |                   
-| BFV                 | Add, Subtract, Multiply, Division, Square, Cube, Dot product             |
-| Paillier            | Add, Subtract, Membership Check                                          | 
+| **Schemes**         | **Supported Operation**                                                                |                          
+|---------------------|----------------------------------------------------------------------------------------|
+| CKKS                | Addition, Subtraction, Multiplication, Division, Square, Cube, Percentage, Dot product |                   
+| BFV                 | Addition, Subtraction, Multiplication, Division, Square, Cube, Dot product             |
+| Paillier            | Addition, Subtraction, Private set membership                                          | 
 
 
 
