@@ -95,9 +95,9 @@ class HomomorphicApp(tk.Tk):
             if scheme == "paillier":
                 btn.config(state="normal" if op in ["add", "subtract", "membership"] else "disabled")
             elif scheme == "bfv":
-                btn.config(state="normal" if op in ["multiply", "square", "cube", "dot"] else "disabled")
+                btn.config(state="normal" if op in ["add", "subtract", "multiply", "square", "cube", "dot"] else "disabled")
             else:
-                btn.config(state="normal" if op in ["multiply", "square", "divide", "cube", "percentage", "dot"] else "disabled")
+                btn.config(state="normal" if op in ["add", "subtract", "multiply", "square", "divide", "cube", "percentage", "dot"] else "disabled")
 
     def process(self, op):
         try:
