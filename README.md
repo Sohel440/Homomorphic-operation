@@ -173,7 +173,7 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 | Addition               | ✅       | ✅           | ✅       |
 | Subtraction            | ✅       | ✅           | ✅       |
 | Multiplication         | ✅       | ❌           | ✅       |
-| Division               | ✅       | ❌           | ✅       |
+| Division               | ❌       | ❌           | ✅       |
 | Square / Cube          | ✅       | ❌           | ✅       |
 | Percentage             | ❌       | ❌           | ✅       |
 | Dot Product            | ✅       | ❌           | ✅       |      
