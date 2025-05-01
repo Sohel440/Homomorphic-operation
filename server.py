@@ -77,8 +77,11 @@ def handle_client(conn):
 
                 for val in array_dataset:
                     enc_val = ts.ckks_vector(context, [val]) if scheme == 'ckks' else ts.bfv_vector(context, [val])
-
-                    if operation == 'multiply':
+                    if operation == 'add':
+                        res = enc_val + enc_client_val
+                    elif operation == 'subtract':
+                        res = enc_val - enc_client_val
+                    elif operation == 'multiply':
                         res = enc_client_val * enc_val
                     elif operation == 'divide':
                         res = enc_val * enc_client_val
