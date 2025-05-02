@@ -113,7 +113,7 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 #####  Install pip  
 
    
-     sudo apt update 
+    sudo apt update 
     sudo apt install python3-pip
 
     
