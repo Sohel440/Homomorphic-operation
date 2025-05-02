@@ -8,7 +8,7 @@ This project implements a **secure two-party computation system** using **Homomo
 
 - **The Server** performs the desired operation  without decrypting the data.
 
-- The encrypted result is sent  to the client.
+- The encrypted result is sent back to the client.
 
 Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier, CKKS)** for **integer and floating-point** operations, featuring a user-friendly **Tkinter GUI**.
 
