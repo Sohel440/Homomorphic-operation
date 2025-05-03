@@ -177,7 +177,8 @@ Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier
 | Square / Cube          | ✅       | ❌           | ✅       |
 | Percentage             | ❌       | ❌           | ✅       |
 | Dot Product            | ✅       | ❌           | ✅       |      
-| Private Set Membership | ❌       | ✅           | ❌       |     
+| Private Set Membership | ❌       | ✅           | ❌       |
+| Matrix multiplication  | ✅       | ❌           | ✅       |  
 
 
 ## 📁 File Structure
