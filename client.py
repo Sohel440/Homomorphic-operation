@@ -83,7 +83,7 @@ class HomomorphicApp(tk.Tk):
             "cube": tk.Button(self, text="Cube", command=lambda: self.process("cube")),
             "percentage": tk.Button(self, text="Percentage", command=lambda: self.process("percentage")),
             "dot": tk.Button(self, text="Dot Product", command=lambda: self.process("dot")),
-            "membership": tk.Button(self, text="membership", command=lambda: self.process("membership")),
+            "membership": tk.Button(self, text="Private Set Membership", command=lambda: self.process("membership")),
             "matmul": tk.Button(self, text="Matrix Multiplication", command=lambda: self.process("matmul")),
         }
 
