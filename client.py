@@ -106,6 +106,15 @@ class HomomorphicApp(tk.Tk):
             else:
                 btn.config(state="normal" if op in ["add", "subtract","multiply", "square", "divide", "cube", "percentage", "dot", "matmul"] else "disabled")
 
+            if scheme == "paillier":
+                self.size_entry.config(state="disabled")
+                self.matrix_entry.config(state="disabled")
+                self.matrix_entry_label.config(state="disabled")
+            else:
+                self.size_entry.config(state="normal")
+                self.matrix_entry.config(state="normal")
+                self.matrix_entry_label.config(state="normal")
+
     def process(self, op):
         try:
             scheme = self.scheme.get()
