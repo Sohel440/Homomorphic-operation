@@ -10,6 +10,8 @@ from phe import paillier
 import tkinter as tk
 from tkinter import ttk, messagebox
 import numpy as np
+import zlib
+import time
 
 def setup_encryption(scheme):
     if scheme == 'bfv':
@@ -30,17 +32,62 @@ def encrypt_value(context, scheme, value):
 def send_to_server(data):
     HOST, PORT = '127.0.0.1', 12345
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        # Configure socket options
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024 * 1024)  # 1MB receive buffer
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 1024 * 1024)  # 1MB send buffer
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)  # Enable TCP keep-alive
+        
+        # Platform-specific keep-alive settings
+        if hasattr(socket, 'TCP_KEEPIDLE'):
+            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 10)  # Start keep-alive after 10 seconds
+            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 5)  # Send keep-alive every 5 seconds
+            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 3)   # Allow 3 failed probes
+        
+        # Connect to the server
         s.connect((HOST, PORT))
-        s.sendall(pickle.dumps(data))
-        s.shutdown(socket.SHUT_WR)
-
-        buffer = b""
-        while True:
-            chunk = s.recv(4096)
-            if not chunk:
-                break
-            buffer += chunk
-        return pickle.loads(buffer)
+        
+        # Send the data with size prefix
+        start_time = time.time()
+        serialized_data = pickle.dumps(data)
+        data_size = len(serialized_data)
+        
+        print(f"Sending data of size: {data_size} bytes")
+        s.sendall(data_size.to_bytes(8, byteorder='big'))  # Send size first
+        s.sendall(serialized_data)  # Send the actual data
+        print(f"Total time to send data: {time.time() - start_time:.4f} seconds")
+        
+        # Receive the response
+        try:
+            s.settimeout(600.0)  # Increased to 600 seconds to accommodate server computation
+            start_time = time.time()
+            
+            # Receive the data size (8 bytes)
+            size_data = b""
+            while len(size_data) < 8:
+                chunk = s.recv(8 - len(size_data))
+                if not chunk:
+                    raise ConnectionError("Connection closed while receiving data size")
+                size_data += chunk
+            data_size = int.from_bytes(size_data, byteorder='big')
+            print(f"Expected data size: {data_size} bytes | Time taken to receive size: {time.time() - start_time:.4f} seconds")
+            
+            # Receive the actual data
+            buffer = b""
+            while len(buffer) < data_size:
+                chunk = s.recv(min(8192, data_size - len(buffer)))
+                if not chunk:
+                    raise ConnectionError("Connection closed while receiving data")
+                buffer += chunk
+                print(f"Received {len(buffer)}/{data_size} bytes | Time elapsed: {time.time() - start_time:.4f} seconds")
+            
+            print(f"Total time to receive data: {time.time() - start_time:.4f} seconds")
+            return pickle.loads(zlib.decompress(buffer))
+        except socket.timeout:
+            print("Socket timeout while receiving data")
+            raise
+        except Exception as e:
+            print(f"Error receiving data: {e}")
+            raise
 
 class HomomorphicApp(tk.Tk):
     def __init__(self):
