@@ -113,12 +113,19 @@ def handle_client(conn):
         print(f"Operation: {operation} | Scheme: {scheme}")
 
         # Fixed datasets
-        server_dataset_dot = np.array([[1.0, 2.0], [3.0, 4.0]])
-        server_dataset_matmul = np.array([[73, 0.5, 8],
-                                          [81, -5, 66],
-                                          [-100, -78, -2], 
-                                          [0, 9, 17], 
-                                          [69, 11, 10]])
+        server_dataset_dot = np.array([[73, 0.5, 8, 7, 5, 1],
+                                      [81, -5, 66, 3, 4, 2],
+                                      [-100, -78, -2, 2, 8, 3],
+                                      [0, 9, 17, 9, 12, 4],
+                                      [69, 11, 10, 7, 5, 5],
+                                      [69, 13, 10, 7, 5, 6]])
+        
+        server_dataset_matmul = np.array([[73, 0.5, 8, 7, 5, 1],
+                                      [81, -5, 66, 3, 4, 2],
+                                      [-100, -78, -2, 2, 8, 3],
+                                      [0, 9, 17, 9, 12, 4],
+                                      [69, 11, 10, 7, 5, 5],
+                                      [69, 13, 10, 7, 5, 6]])
 
         computation_start = time.time()
         if scheme == 'paillier':
@@ -177,7 +184,16 @@ def handle_client(conn):
                         raise ValueError(f"Unsupported operation '{operation}' for {scheme}")
 
                     results.append(res.serialize())
-
+                    
+            elif operation == "membership" and scheme =="bfv":
+                enc_client_val = ts.bfv_vector_from(context, encrypted_data['encrypted_client_value'])
+                array_dataset = dataset.array_dataset
+                for val in array_dataset:
+                    enc_val = ts.bfv_vector(context, [val])
+                    res = enc_val - enc_client_val
+                    
+                    
+                    results.append(res.serialize())
             elif operation == "dot":
                 enc_client_tensor = ts.ckks_tensor_from(context, encrypted_data['encrypted_tensor']) \
                     if scheme == 'ckks' else ts.bfv_tensor_from(context, encrypted_data['encrypted_tensor'])
