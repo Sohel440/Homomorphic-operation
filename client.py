@@ -79,9 +79,9 @@ def send_to_server(data):
                     raise ConnectionError("Connection closed while receiving data")
                 buffer += chunk
                 print(f"Received {len(buffer)}/{data_size} bytes | Time elapsed: {time.time() - start_time:.4f} seconds")
-            
+            total_time = time.time() - start_time
             print(f"Total time to receive data: {time.time() - start_time:.4f} seconds")
-            return pickle.loads(zlib.decompress(buffer))
+            return pickle.loads(zlib.decompress(buffer)),total_time
         except socket.timeout:
             print("Socket timeout while receiving data")
             raise
@@ -149,7 +149,7 @@ class HomomorphicApp(tk.Tk):
             if scheme == "paillier":
                 btn.config(state="normal" if op in ["add", "subtract", "membership"] else "disabled")
             elif scheme == "bfv":
-                btn.config(state="normal" if op in ["add", "subtract","multiply", "square", "cube", "dot", "matmul"] else "disabled")
+                btn.config(state="normal" if op in ["add", "subtract","multiply", "square", "cube", "dot", "matmul", "membership"] else "disabled")
             else:
                 btn.config(state="normal" if op in ["add", "subtract","multiply", "square", "divide", "cube", "percentage", "dot", "matmul"] else "disabled")
 
@@ -184,7 +184,7 @@ class HomomorphicApp(tk.Tk):
                     }
                 }
 
-                response = send_to_server(data)
+                response,total_time = send_to_server(data)
                 
                 if op == "membership":
                     decrypted_differences = [
@@ -195,6 +195,7 @@ class HomomorphicApp(tk.Tk):
 
                     self.result_box.delete("1.0", tk.END)
                     self.result_box.insert(tk.END, f"Membership Found: {membership_found}\n")
+                    self.result_box.insert(tk.END, f"Total Time: {total_time}\n")
                     return
                 # Decrypt results
                 decrypted = [
@@ -206,6 +207,7 @@ class HomomorphicApp(tk.Tk):
                 self.result_box.insert(tk.END, f"Operation: {op}\n")
                 for i, v in enumerate(decrypted, 1):
                     self.result_box.insert(tk.END, f"Result {i}: {v}\n")
+                self.result_box.insert(tk.END, f"Total Time: {total_time}\n")
                 return
 
             # For BFV/CKKS
@@ -238,7 +240,7 @@ class HomomorphicApp(tk.Tk):
                     'context': context.serialize(),
                     'encrypted_tensor': tensor.serialize()
                 }
-                response = send_to_server(data)
+                response , total_time = send_to_server(data)
 
                 decrypted_tensor = ts.ckks_tensor_from(context, response['results'][0]) if scheme == 'ckks' \
                     else ts.bfv_tensor_from(context, response['results'][0])
@@ -250,6 +252,7 @@ class HomomorphicApp(tk.Tk):
                 self.result_box.insert(tk.END, f"{op.capitalize()} Result (matrix):\n")
                 for row in result:
                     self.result_box.insert(tk.END, f"{row}\n")
+                self.result_box.insert(tk.END, f"Total Time: {total_time}\n")
                 return
 
             # For scalar operations
@@ -261,7 +264,7 @@ class HomomorphicApp(tk.Tk):
                 val = 1 / val
             elif op == 'percentage':
                 val /= 100
-
+   
             enc_val = encrypt_value(context, scheme, val)
             data = {
                 'operation': op,
@@ -269,7 +272,20 @@ class HomomorphicApp(tk.Tk):
                 'context': context.serialize(),
                 'encrypted_client_value': enc_val.serialize()
             }
-            response = send_to_server(data)
+            response , total_time = send_to_server(data)
+            
+            
+            if op == 'membership':
+                decrypted_differences = [
+                    ts.bfv_vector_from(context, r).decrypt()[0]
+                    for r in response['results']
+                ]
+                membership_found = any(diff == 0 for diff in decrypted_differences)
+
+                self.result_box.delete("1.0", tk.END)
+                self.result_box.insert(tk.END, f"Membership Found: {membership_found}\n")
+                self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
+                return
 
             decrypted = [
                 ts.ckks_vector_from(context, r).decrypt()[0] if scheme == 'ckks'
@@ -281,11 +297,10 @@ class HomomorphicApp(tk.Tk):
             self.result_box.insert(tk.END, f"Operation: {op}\n")
             for i, v in enumerate(decrypted, 1):
                 self.result_box.insert(tk.END, f"Result {i}: {v}\n")
-
+            self.result_box.insert(tk.END, f"Total Time: {total_time}\n")
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
 if __name__ == "__main__":
     app = HomomorphicApp()
     app.mainloop()
-
