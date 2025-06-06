@@ -1,8 +1,8 @@
-# 🔐 A Secure Two-Party Arithmetic Evaluation System using Homomorphic Encryption
+# 🔐 A Secure Two-Party Arithmetic Evaluation Protocol using Homomorphic Encryption
 
 ## ✨ Overview 
 
-This project implements a **secure two-party computation system** using **Homomorphic Encryption (HE)**, enabling privacy-preserving arithmetic operations on encrypted data. The system follows the client-server model where:
+This project implements a **secure two-party computation protocol** using **Homomorphic Encryption (HE)**, enabling privacy-preserving arithmetic operations on encrypted data. The protocol follows the client-server model where:
 
 - **The Client** encrypts input data and selects an operation.
 
@@ -10,7 +10,7 @@ This project implements a **secure two-party computation system** using **Homomo
 
 - The encrypted result is sent back to the client.
 
-Built with **TenSEAL**, the system supports multiple HE schemes **(BFV, Paillier, CKKS)** for **integer and floating-point** operations, featuring a user-friendly **Tkinter GUI**.
+Built with **TenSEAL**, the protocol supports multiple HE schemes **(BFV, Paillier, CKKS)** for **integer and floating-point** operations, featuring a user-friendly **Tkinter GUI**.
 
 
 ## 🎯 Key Features
