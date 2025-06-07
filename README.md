@@ -2,7 +2,7 @@
 
 ## ✨ Overview 
 
-This project implements  ** a two-party secure computation protocol** using **Homomorphic Encryption (HE)**, enabling privacy-preserving arithmetic operations on encrypted data. The protocol follows the client-server model where:
+This project implements  **a two-party secure computation protocol** using **Homomorphic Encryption (HE)**, enabling privacy-preserving arithmetic operations on encrypted data. The protocol follows the client-server model where:
 
 - **The Client** encrypts input data and selects an operation.
 
