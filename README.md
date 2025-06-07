@@ -1,4 +1,4 @@
-# 🔐 A Secure Two-Party Arithmetic Evaluation Protocol using Homomorphic Encryption
+# 🔐 A Secure Two-Party Secure Computation Protocol using Homomorphic Encryption
 
 ## ✨ Overview 
 
