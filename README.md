@@ -158,7 +158,7 @@ Built with **TenSEAL**, the protocol supports multiple HE schemes **(BFV, Pailli
          
 - 3. Perform Operations:
 
-     - Enter the  numeric values
+     - Enter the  required data
 
      - Select the encryption scheme
 
