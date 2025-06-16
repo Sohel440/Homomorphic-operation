@@ -15,11 +15,11 @@ Built with **TenSEAL**, the protocol supports multiple HE schemes **(BFV, Pailli
 
 ## 🎯 Key Features
 
-| **Schemes**         | **Supported Operations**                                                                |                          
-|---------------------|----------------------------------------------------------------------------------------|
-| CKKS                | Addition, Subtraction, Multiplication, Division, Square, Cube, Percentage, Dot product |                   
-| BFV                 | Addition, Subtraction, Multiplication, Division, Square, Cube, Dot product             |
-| Paillier            | Addition, Subtraction, Private set membership                                          | 
+| **Schemes**         | **Supported Operations**                                                                                     |                          
+|---------------------|--------------------------------------------------------------------------------------------------------------|
+| CKKS                | Addition, Subtraction, Multiplication, Division, Square, Cube, Percentage, Dot product, Matrix Multiplication|                   
+| BFV                 | Addition, Subtraction, Multiplication, Square, Cube, Dot product, Matrix Multiplication                      |
+| Paillier            | Addition, Subtraction, Private set membership                                                                | 
 
 
 
