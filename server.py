@@ -42,7 +42,7 @@ def compute_op(enc_server_val, enc_client_val, operation):
         res = enc_server_val - enc_client_val
     return {'ciphertext': res.ciphertext(), 'exponent': res.exponent}
 
-def send_data_in_chunks(conn, data, chunk_size=8192):
+def send_data_in_chunks(conn, data, chunk_size=16384):
     try:
         start_time = time.time()
         serialized_data = zlib.compress(pickle.dumps(data))
@@ -129,14 +129,26 @@ def handle_client(conn):
         computation_start = time.time()
         if scheme == 'paillier':
             pub_key = paillier.PaillierPublicKey(n=encrypted_data['public_key']['n'])
-            enc_client_val = paillier.EncryptedNumber(pub_key,
-                                                      encrypted_data['encrypted_client_value']['ciphertext'],
-                                                      encrypted_data['encrypted_client_value']['exponent'])
+            # Handle multiple encrypted client values
+            enc_client_vals = [
+                paillier.EncryptedNumber(pub_key, val['ciphertext'], val['exponent'])
+                for val in encrypted_data['encrypted_client_values']
+            ]
             
             encrypted_server_dataset = pre_encrypt_dataset(pub_key)
 
             operation_start = time.time()
-            if operation in ['add', 'subtract', 'membership']:
+            if operation in ['add', 'subtract']:
+                results = []
+                for enc_client_val in enc_client_vals:
+                    with Pool() as pool:
+                        op_results = pool.starmap(compute_op, [(enc_server_val, enc_client_val, operation) for enc_server_val in encrypted_server_dataset])
+                    results.append(op_results)
+            elif operation == 'membership':
+                # Single value for membership
+                enc_client_val = paillier.EncryptedNumber(pub_key,
+                                                          encrypted_data['encrypted_client_values'][0]['ciphertext'],
+                                                          encrypted_data['encrypted_client_values'][0]['exponent'])
                 with Pool() as pool:
                     results = pool.starmap(compute_op, [(enc_server_val, enc_client_val, operation) for enc_server_val in encrypted_server_dataset])
             else:
@@ -233,7 +245,7 @@ def handle_client(conn):
 
         print(f"Total computation time for operation '{operation}' using '{scheme}' scheme: {time.time() - computation_start:.4f} seconds")
 
-        send_data_in_chunks(conn, {'results': results})
+        send_data_in_chunks(conn, {'results': results},chunk_size=16384)
         print("Results sent to client.")
 
     except Exception as e:
@@ -250,21 +262,21 @@ def handle_client(conn):
 def main():
     HOST, PORT = '127.0.0.1', 12345
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024 * 1024)
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 1024 * 1024)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 2* 1024 * 1024)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 2* 1024 * 1024)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
         if hasattr(socket, 'TCP_KEEPIDLE'):
-            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 10)
-            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 5)
-            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 3)
+            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 5)
+            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 2)
+            s.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 5)
         
         s.bind((HOST, PORT))
         s.listen()
         print(f"Server is running on {HOST}:{PORT}")
         while True:
             conn, addr = s.accept()
-            conn.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 2* 1024 * 1024)
-            conn.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 2* 1024 * 1024)
+            conn.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 2 * 1024 * 1024)
+            conn.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 2 * 1024 * 1024)
             conn.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
             if hasattr(socket, 'TCP_KEEPIDLE'):
                 conn.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 5)
