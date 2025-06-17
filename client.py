@@ -33,8 +33,8 @@ def send_to_server(data):
     HOST, PORT = '127.0.0.1', 12345
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 2 *1024 * 1024)
-            s.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 2* 1024 * 1024)
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 2 * 1024 * 1024)
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 2 * 1024 * 1024)
             s.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
             
             if hasattr(socket, 'TCP_KEEPIDLE'):
@@ -67,7 +67,7 @@ def send_to_server(data):
             
             buffer = b""
             while len(buffer) < data_size:
-                chunk = s.recv(min(8192, data_size - len(buffer)))
+                chunk = s.recv(min(16384, data_size - len(buffer)))
                 if not chunk:
                     raise ConnectionError("Connection closed while receiving data")
                 buffer += chunk
@@ -96,7 +96,7 @@ class HomomorphicApp(tk.Tk):
         self.create_widgets()
 
     def create_widgets(self):
-        tk.Label(self, text="Enter single value for Paillier or comma-separated values (e.g., 1,2,3,4) for BFV/CKKS add/subtract/multiply/square/cube:").pack()
+        tk.Label(self, text="Enter single value for Paillier/BFV membership or comma-separated values (e.g., 1,2,3,4) for other operations:").pack()
         self.entry = tk.Entry(self)
         self.entry.insert(0, " ")
         self.entry.pack()
@@ -147,39 +147,41 @@ class HomomorphicApp(tk.Tk):
             else:
                 btn.config(state="normal" if op in ["add", "subtract", "multiply", "square", "divide", "cube", "percentage", "dot", "matmul"] else "disabled")
 
-        if op in ["square", "cube", "membership", "add", "subtract", "multiply"]:
+        if op in ["square", "cube", "membership"]:
             self.size_entry.config(state="disabled")
             self.matrix_entry.config(state="disabled")
             self.matrix_entry_label.config(state="disabled")
         else:
-            self.size_entry.config(state="normal")
-            self.matrix_entry.config(state="normal")
-            self.matrix_entry_label.config(state="normal")
+            self.size_entry.config(state="normal" if op in ["dot", "matmul"] else "disabled")
+            self.matrix_entry.config(state="normal" if op in ["dot", "matmul"] else "disabled")
+            self.matrix_entry_label.config(state="normal" if op in ["dot", "matmul"] else "disabled")
 
     def process(self, op):
         try:
             scheme = self.scheme.get()
             if scheme == 'paillier':
-                values = [x.strip() for x in self.entry.get().strip().split(",")]
-                if len(values) != 1:
-                    messagebox.showerror("Error", "Please enter a single value for Paillier operations.")
+                values = [float(x.strip()) for x in self.entry.get().strip().split(",")]
+                if not values:
+                    messagebox.showerror("Error", "Please enter at least one value.")
                     return
-                val = float(values[0])
+                if op == 'membership' and len(values) != 1:
+                    messagebox.showerror("Error", "Please enter a single value for Paillier membership.")
+                    return
                 
                 # Use persistent Paillier keypair or generate new one
                 if self.paillier_keypair is None:
                     self.paillier_keypair = paillier.generate_paillier_keypair()
                 pub_key, priv_key = self.paillier_keypair
-                enc_val = pub_key.encrypt(val)
+                enc_vals = [pub_key.encrypt(val) for val in values]
                 
                 data = {
                     'operation': op,
                     'scheme': scheme,
                     'public_key': {'n': pub_key.n},
-                    'encrypted_client_value': {
-                        'ciphertext': enc_val.ciphertext(),
-                        'exponent': enc_val.exponent
-                    }
+                    'encrypted_client_values': [
+                        {'ciphertext': enc_val.ciphertext(), 'exponent': enc_val.exponent}
+                        for enc_val in enc_vals
+                    ]
                 }
 
                 response, total_time = send_to_server(data)
@@ -196,15 +198,16 @@ class HomomorphicApp(tk.Tk):
                     self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
                     return
 
-                decrypted = [
-                    priv_key.decrypt(paillier.EncryptedNumber(pub_key, r['ciphertext'], r['exponent']))
-                    for r in response['results']
-                ]
-
                 self.result_box.delete("1.0", tk.END)
                 self.result_box.insert(tk.END, f"Operation: {op.capitalize()}\n")
-                for i, v in enumerate(decrypted, 1):
-                    self.result_box.insert(tk.END, f"Result {i}: {v}\n")
+                for i, (val, val_results) in enumerate(zip(values, response['results']), 1):
+                    decrypted = [
+                        priv_key.decrypt(paillier.EncryptedNumber(pub_key, r['ciphertext'], r['exponent']))
+                        for r in val_results
+                    ]
+                    self.result_box.insert(tk.END, f"Value {i} ({val}):\n")
+                    for j, v in enumerate(decrypted, 1):
+                        self.result_box.insert(tk.END, f"  Result {j}: {v}\n")
                 self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
                 return
 
@@ -246,50 +249,62 @@ class HomomorphicApp(tk.Tk):
                 self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
                 return
 
-            elif op in ['square', 'cube', 'add', 'subtract', 'multiply']:
+            elif op in ['square", "cube']:
                 values = [float(x.strip()) for x in self.entry.get().strip().split(",")]
                 if not values:
                     messagebox.showerror("Error", "Please enter at least one value.")
                     return
 
-                if op in ['square', 'cube']:
-                    enc_val = encrypt_value(context, scheme, values)
-                    data = {
-                        'operation': op,
-                        'scheme': scheme,
-                        'context': context.serialize(),
-                        'encrypted_client_value': enc_val.serialize()
-                    }
-                else:
-                    enc_vals = [encrypt_value(context, scheme, [val]) for val in values]
-                    data = {
-                        'operation': op,
-                        'scheme': scheme,
-                        'context': context.serialize(),
-                        'encrypted_client_values': [enc_val.serialize() for enc_val in enc_vals]
-                    }
+                enc_val = encrypt_value(context, scheme, values)
+                data = {
+                    'operation': op,
+                    'scheme': scheme,
+                    'context': context.serialize(),
+                    'encrypted_client_value': enc_val.serialize()
+                }
+
+                response, total_time = send_to_server(data)
+                
+                self.result_box.delete("1.0", tk.END)
+                self.result_box.insert(tk.END, f"Operation: {op.capitalize()}\n")
+                decrypted = ts.ckks_vector_from(context, response['results'][0]).decrypt() if scheme == 'ckks' \
+                    else ts.bfv_vector_from(context, response['results'][0]).decrypt()
+                for i, (input_val, result_val) in enumerate(zip(values, decrypted), 1):
+                    self.result_box.insert(tk.END, f"Result {i} ({input_val} {op}d): {result_val:.2f}\n")
+                self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
+                return
+
+            elif op in ['add', 'subtract', 'multiply']:
+                values = [float(x.strip()) for x in self.entry.get().strip().split(",")]
+                if not values:
+                    messagebox.showerror("Error", "Please enter at least one value.")
+                    return
+
+                enc_vals = [encrypt_value(context, scheme, [val]) for val in values]
+                data = {
+                    'operation': op,
+                    'scheme': scheme,
+                    'context': context.serialize(),
+                    'encrypted_client_values': [enc_val.serialize() for enc_val in enc_vals]
+                }
                 
                 response, total_time = send_to_server(data)
                 
                 self.result_box.delete("1.0", tk.END)
                 self.result_box.insert(tk.END, f"Operation: {op.capitalize()}\n")
-                if op in ['square', 'cube']:
-                    decrypted = ts.ckks_vector_from(context, response['results'][0]).decrypt() if scheme == 'ckks' \
-                        else ts.bfv_vector_from(context, response['results'][0]).decrypt()
-                    for i, (input_val, result_val) in enumerate(zip(values, decrypted), 1):
-                        self.result_box.insert(tk.END, f"Result {i} ({input_val} {op}d): {result_val:.2f}\n")
-                else:
-                    for i, (val, val_results) in enumerate(zip(values, response['results']), 1):
-                        decrypted = [ts.ckks_vector_from(context, r).decrypt()[0] if scheme == 'ckks'
-                                    else ts.bfv_vector_from(context, r).decrypt()[0]
-                                    for r in val_results]
-                        self.result_box.insert(tk.END, f"Value {i} ({val}):\n")
-                        for j, v in enumerate(decrypted, 1):
-                            self.result_box.insert(tk.END, f"  Result {j}: {v:.2f}\n")
+                for i, (val, val_results) in enumerate(zip(values, response['results']), 1):
+                    decrypted = [
+                        ts.ckks_vector_from(context, r).decrypt()[0] if scheme == 'ckks'
+                        else ts.bfv_vector_from(context, r).decrypt()[0]
+                        for r in val_results
+                    ]
+                    self.result_box.insert(tk.END, f"Value {i} ({val}):\n")
+                    for j, v in enumerate(decrypted, 1):
+                        self.result_box.insert(tk.END, f"  Result {j}: {v:.2f}\n")
                 self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
                 return
 
-            val = float(self.entry.get())
+            val = float(self.entry.get().get())
             if op == 'divide' and val == 0:
                 messagebox.showerror("Error", "Division by zero")
                 return
