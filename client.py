@@ -67,7 +67,7 @@ def send_to_server(data):
             
             buffer = b""
             while len(buffer) < data_size:
-                chunk = s.recv(min(16384, data_size - len(buffer)))
+                chunk = s.recv(min(8192, data_size - len(buffer)))
                 if not chunk:
                     raise ConnectionError("Connection closed while receiving data")
                 buffer += chunk
@@ -147,6 +147,7 @@ class HomomorphicApp(tk.Tk):
             else:
                 btn.config(state="normal" if op in ["add", "subtract", "multiply", "square", "divide", "cube", "percentage", "dot", "matmul"] else "disabled")
 
+        # Disable matrix input fields for square, cube, and membership
         if op in ["square", "cube", "membership"]:
             self.size_entry.config(state="disabled")
             self.matrix_entry.config(state="disabled")
@@ -186,20 +187,20 @@ class HomomorphicApp(tk.Tk):
 
                 response, total_time = send_to_server(data)
                 
+                self.result_box.delete("1.0", tk.END)
+                self.result_box.insert(tk.END, f"Operation: {op.capitalize()}\n")
                 if op == "membership":
                     decrypted_differences = [
                         priv_key.decrypt(paillier.EncryptedNumber(pub_key, r['ciphertext'], r['exponent']))
                         for r in response['results']
                     ]
                     membership_found = any(diff == 0 for diff in decrypted_differences)
-
-                    self.result_box.delete("1.0", tk.END)
+                    self.result_box.insert(tk.END, f"Membership check against server dataset\n")
                     self.result_box.insert(tk.END, f"Membership Found: {membership_found}\n")
                     self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
                     return
 
-                self.result_box.delete("1.0", tk.END)
-                self.result_box.insert(tk.END, f"Operation: {op.capitalize()}\n")
+                self.result_box.insert(tk.END, f"Results computed against server arithmetic dataset\n")
                 for i, (val, val_results) in enumerate(zip(values, response['results']), 1):
                     decrypted = [
                         priv_key.decrypt(paillier.EncryptedNumber(pub_key, r['ciphertext'], r['exponent']))
@@ -249,7 +250,7 @@ class HomomorphicApp(tk.Tk):
                 self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
                 return
 
-            elif op in ['square", "cube']:
+            elif op in ['square', 'cube']:
                 values = [float(x.strip()) for x in self.entry.get().strip().split(",")]
                 if not values:
                     messagebox.showerror("Error", "Please enter at least one value.")
@@ -304,7 +305,7 @@ class HomomorphicApp(tk.Tk):
                 self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
                 return
 
-            val = float(self.entry.get().get())
+            val = float(self.entry.get().strip())
             if op == 'divide' and val == 0:
                 messagebox.showerror("Error", "Division by zero")
                 return
@@ -331,6 +332,8 @@ class HomomorphicApp(tk.Tk):
                 membership_found = any(diff == 0 for diff in decrypted_differences)
                 
                 self.result_box.delete("1.0", tk.END)
+                self.result_box.insert(tk.END, f"Operation: {op.capitalize()}\n")
+                self.result_box.insert(tk.END, f"Membership check against server dataset\n")
                 self.result_box.insert(tk.END, f"Membership Found: {membership_found}\n")
                 self.result_box.insert(tk.END, f"Total Time: {total_time:.4f} seconds\n")
                 return
