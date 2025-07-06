@@ -198,13 +198,6 @@ Built with **TenSEAL**, the protocol supports multiple HE schemes **(BFV, Pailli
 | Paillier division attempts         | Use the CKKS scheme for division operations       |
 
 
-
-## 👥 Contributors
-- **[Sohel Mollick](https://github.com/sohel440)**
-- **[Subhankar Dawn](https://github.com/Subhankar200)**
-- **[Subhankar Halder](https://github.com/subhankar-732121)**
-- **[Madhusudan Das](https://github.com/MADHUSUDAN-DAS)**
-
 ## 🧪 Research Applications
 
 Ideal for:
